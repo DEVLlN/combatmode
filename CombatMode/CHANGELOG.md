@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Support Mode** has a new **Self-Cast Keybind**. Hold it and the helpful spells on your click-cast buttons land on you, without changing your target or **Target Lock**.
 - **Support Mode** has a new **Cycle in Group Order** option. Turn it on and the **Cycle Lock** keys move through your party or raid in group order, instead of jumping to the nearest player. With nobody locked, **Next** locks the first member of your group and **Previous** the last.
 
+### Changed
+
+- The **Radial Menu** now opens with its wheel name in the centre. The close X appears only after you aim a slice and return to the centre.
+
 ### Fixed
 
 - Friendly pet and minion nameplates, which the **Cycle Lock** keys skip, are now hidden when **Cycle NPCs and Pets** is off, in and out of **Support Mode**. Turning the option on restores your own setting.

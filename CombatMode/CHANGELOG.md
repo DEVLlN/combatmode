@@ -10,10 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - **Support Mode** has a new **Self-Cast Keybind**. Hold it and the helpful spells on your click-cast buttons land on you, without changing your target or **Target Lock**.
+- **Support Mode** has a new **Cycle in Group Order** option. Turn it on and the **Cycle Lock** keys move through your party or raid in group order, instead of jumping to the nearest player. With nobody locked, **Next** locks the first member of your group and **Previous** the last.
 
 ### Fixed
 
-- **Support Mode** no longer shows nameplates on pets and NPCs that the **Cycle Lock** keys skip. Turn on **Cycle NPCs and Pets** to see them again.
+- Friendly pet and minion nameplates, which the **Cycle Lock** keys skip, are now hidden when **Cycle NPCs and Pets** is off, in and out of **Support Mode**. Turning the option on restores your own setting.
 - Click-cast buttons no longer stop working after you switch **Support Mode** on or off when the action bar slot holds a macro (such as a **Reticle Targeting Macro**) on one page and a spell on the other. Before, the button did nothing until you reloaded.
 
 ## [5.5.1] - 2026-11-13

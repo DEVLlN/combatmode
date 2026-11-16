@@ -444,8 +444,11 @@ L["Hold while in Support Mode to cast the helpful spells on your click-cast butt
   "Tienilo premuto in Modalità supporto per lanciare su di te gli incantesimi benefici dei tuoi pulsanti di clic. Il tuo bersaglio e il Blocco bersaglio restano invariati."
 L["Prioritize Crosshair Target"] = "Dai priorità al bersaglio del mirino"
 L["Cycle NPCs and Pets"] = "Alterna tra PNG e famigli"
-L["Cycle Lock normally moves only between nearby players in Support Mode. Turn this on to include nearby NPCs and pets too. While this is off, Support Mode also hides the nameplates of NPCs and pets."] =
-  "Cicla blocco in modalità supporto passa normalmente solo tra i giocatori vicini. Attiva questa opzione per includere anche PNG e famigli vicini. Finché è disattivata, la modalità supporto nasconde anche le targhette di PNG e famigli."
+L["In Support Mode, Cycle Lock also moves to nearby NPCs and pets. While off, friendly pet nameplates are hidden, also outside Support Mode."] =
+  "In modalità supporto, Cicla blocco passa anche a PNG e famigli vicini. Finché è disattivata, le targhette dei famigli amici sono nascoste, anche fuori dalla modalità supporto."
+L["Cycle in Group Order"] = "Alterna in ordine di gruppo"
+L["In Support Mode, Cycle Lock moves through your party or raid in group order instead of to the nearest ally. With nobody locked, Next locks the first member and Previous the last."] =
+  "In modalità supporto, Cicla blocco scorre il tuo gruppo o la tua incursione in ordine, invece di passare all'alleato più vicino. Se nessuno è bloccato, Successivo blocca il primo membro e Precedente l'ultimo."
 L["Prioritizes the ally under your crosshair over other friendly targets (e.g. Ally Cycle). Disable to prioritize your selected target instead."] =
   "L'alleato sotto il mirino riceve l'incantesimo anche se hai selezionato un altro bersaglio amico, come una scelta del Ciclo alleati. Disattiva per lanciare prima sul bersaglio selezionato."
 L["Tap to toggle Support Mode on or off."] =

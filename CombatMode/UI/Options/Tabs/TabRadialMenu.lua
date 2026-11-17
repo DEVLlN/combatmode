@@ -105,7 +105,11 @@ for _, section in ipairs({
 }) do
   menuOrder[#menuOrder + 1] = section[1]
   for _, action in ipairs(CM.RadialActions.list) do
-    if action.group == section[2] and CM.RadialActions.IsAvailable(action) then
+    if
+      not action.locationPing
+      and action.group == section[2]
+      and CM.RadialActions.IsAvailable(action)
+    then
       menuValues[action.id] = action.label
       menuOrder[#menuOrder + 1] = action.id
     end

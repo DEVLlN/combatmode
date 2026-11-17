@@ -733,3 +733,18 @@ L["Macro is %d characters over the %d limit."] = true
 L["Macro “%s” no longer fits with the current preline; edit it from Reticle Targeting Macros."] =
   true
 L["Click to print URL to chat"] = true
+
+-- Ping menu (English fallback).
+L["Assist"] = true
+L["Attack"] = true
+L["On My Way"] = true
+L["Open the dedicated Ping menu. Both keybinds have the same tap and hold behavior."] = true
+L["PING"] = true
+L["Ping"] = true
+L["Ping menu"] = true
+L["Ping menu keybinding"] = true
+L["Primary Keybind"] = true
+L["Secondary Keybind"] = true
+L["Tap to ping the unit or ground under your reticle. Hold, choose Attack, Warning, On My Way or Assist, then release. Escape or right-click cancels the menu."] =
+  true
+L["Warning"] = true

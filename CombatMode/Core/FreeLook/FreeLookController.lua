@@ -221,7 +221,7 @@ local function ShouldKeepWeaponsDrawnOnTempUnlock()
   if FreeLookOverride then
     return true
   end
-  if IsGroundTargeting() then
+  if IsGroundTargeting() or CM.locationPingActive then
     return true
   end
   if CM.IsRadialMenuOpen and CM.IsRadialMenuOpen() then
@@ -522,6 +522,7 @@ function CM.ShouldFreeLookBeOff()
     end
     if
       IsGroundTargeting()
+      or CM.locationPingActive
       or InCinematic()
       or IsInCinematicScene()
       or CM.IsUnlockFrameVisible()
@@ -649,6 +650,9 @@ local function PlayFreeLookSound()
 end
 
 function CM.LockFreeLook()
+  if CM.locationPingActive then
+    return
+  end
   if IsMouselooking() then
     return
   end

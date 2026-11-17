@@ -841,3 +841,19 @@ L["Macro is %d characters over the %d limit."] =
 L["Macro “%s” no longer fits with the current preline; edit it from Reticle Targeting Macros."] =
   "매크로 「%s」이(가) 현재 사전 줄과 함께 들어가지 않습니다. 조준선 대상 지정 매크로에서 편집하세요."
 L["Click to print URL to chat"] = "클릭하여 URL을 대화창에 출력"
+
+-- Ping menu (English fallback).
+L["Assist"] = "Assist"
+L["Attack"] = "Attack"
+L["On My Way"] = "On My Way"
+L["Open the dedicated Ping menu. Both keybinds have the same tap and hold behavior."] =
+  "Open the dedicated Ping menu. Both keybinds have the same tap and hold behavior."
+L["PING"] = "PING"
+L["Ping"] = "Ping"
+L["Ping menu"] = "Ping menu"
+L["Ping menu keybinding"] = "Ping menu keybinding"
+L["Primary Keybind"] = "Primary Keybind"
+L["Secondary Keybind"] = "Secondary Keybind"
+L["Tap to ping the unit or ground under your reticle. Hold, choose Attack, Warning, On My Way or Assist, then release. Escape or right-click cancels the menu."] =
+  "Tap to ping the unit or ground under your reticle. Hold, choose Attack, Warning, On My Way or Assist, then release. Escape or right-click cancels the menu."
+L["Warning"] = "Warning"

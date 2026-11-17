@@ -836,3 +836,19 @@ L["Macro is %d characters over the %d limit."] = "A macro excede em %d caractere
 L["Macro “%s” no longer fits with the current preline; edit it from Reticle Targeting Macros."] =
   "A macro “%s” não cabe mais com a pré-linha atual; edite-a em Macros de Mira de Alvo."
 L["Click to print URL to chat"] = "Clique para exibir a URL no chat"
+
+-- Ping menu (English fallback).
+L["Assist"] = "Assist"
+L["Attack"] = "Attack"
+L["On My Way"] = "On My Way"
+L["Open the dedicated Ping menu. Both keybinds have the same tap and hold behavior."] =
+  "Open the dedicated Ping menu. Both keybinds have the same tap and hold behavior."
+L["PING"] = "PING"
+L["Ping"] = "Ping"
+L["Ping menu"] = "Ping menu"
+L["Ping menu keybinding"] = "Ping menu keybinding"
+L["Primary Keybind"] = "Primary Keybind"
+L["Secondary Keybind"] = "Secondary Keybind"
+L["Tap to ping the unit or ground under your reticle. Hold, choose Attack, Warning, On My Way or Assist, then release. Escape or right-click cancels the menu."] =
+  "Tap to ping the unit or ground under your reticle. Hold, choose Attack, Warning, On My Way or Assist, then release. Escape or right-click cancels the menu."
+L["Warning"] = "Warning"

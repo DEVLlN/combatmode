@@ -69,6 +69,7 @@
     <Script file="Core\RadialMenu\Actions.lua"/>
     <Script file="Core\RadialMenu\Secure.lua"/>
     <Script file="Core\RadialMenu\PartyWheel.lua"/>
+    <Script file="Core\Ping\Ping.lua"/>
     <Script file="Core\RadialMenu\View.lua"/>
     <Script file="Core\RadialMenu\RadialMenu.lua"/>
     <!-- OPTIONS UI: custom standalone window. Draw + Widgets before
@@ -90,6 +91,7 @@
     <Script file="UI\Options\Tabs\TabReticleTargeting.lua"/>
     <Script file="UI\Options\Tabs\TabClickCasting.lua"/>
     <Script file="UI\Options\Tabs\TabRadialMenu.lua"/>
+    <Script file="UI\Options\Tabs\TabPing.lua"/>
     <Script file="UI\Options\Tabs\TabAllyCycle.lua"/>
     <Script file="UI\Options\Tabs\TabSupportMode.lua"/>
     <Script file="UI\Options\Tabs\TabAutoCursorUnlock.lua"/>

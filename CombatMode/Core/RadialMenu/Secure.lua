@@ -123,6 +123,8 @@ local KEY_PRE = [[
       return false
     end
     -- One wheel at a time: not while the Party Wheel is open (frame ref set by PartyWheel.lua).
+    local ping = owner:GetFrameRef("ping")
+    if ping and ping:IsShown() then return false end
     local party = owner:GetFrameRef("party")
     if party and party:IsShown() then
       return false
@@ -241,6 +243,9 @@ end
 --- view treat both the same.
 function CM.IsRadialMenuOpen()
   if Wheel ~= nil and Wheel:IsShown() then
+    return true
+  end
+  if CM.IsPingMenuOpen and CM.IsPingMenuOpen() then
     return true
   end
   return CM.IsPartyWheelOpen ~= nil and CM.IsPartyWheelOpen()
@@ -377,6 +382,9 @@ end
 local function ApplyAll()
   StoreImpl()
   ApplyBindingImpl()
+  if CM.RefreshPingMenu then
+    CM.RefreshPingMenu()
+  end
 end
 
 --- Re-store the wheels and rebind the key (queued while in combat).

@@ -818,3 +818,19 @@ L["Macro is %d characters over the %d limit."] =
 L["Macro “%s” no longer fits with the current preline; edit it from Reticle Targeting Macros."] =
   "宏“%s”与当前前置行合并后已超出长度限制；请在准星瞄准宏中编辑。"
 L["Click to print URL to chat"] = "点击将 URL 输出到聊天"
+
+-- Ping menu (English fallback).
+L["Assist"] = "Assist"
+L["Attack"] = "Attack"
+L["On My Way"] = "On My Way"
+L["Open the dedicated Ping menu. Both keybinds have the same tap and hold behavior."] =
+  "Open the dedicated Ping menu. Both keybinds have the same tap and hold behavior."
+L["PING"] = "PING"
+L["Ping"] = "Ping"
+L["Ping menu"] = "Ping menu"
+L["Ping menu keybinding"] = "Ping menu keybinding"
+L["Primary Keybind"] = "Primary Keybind"
+L["Secondary Keybind"] = "Secondary Keybind"
+L["Tap to ping the unit or ground under your reticle. Hold, choose Attack, Warning, On My Way or Assist, then release. Escape or right-click cancels the menu."] =
+  "Tap to ping the unit or ground under your reticle. Hold, choose Attack, Warning, On My Way or Assist, then release. Escape or right-click cancels the menu."
+L["Warning"] = "Warning"

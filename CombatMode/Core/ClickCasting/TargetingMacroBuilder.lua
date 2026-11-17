@@ -432,6 +432,37 @@ local function ComputeActionButtonSlotOnPage(buttonNum, page)
   return id + ((page - 1) * buttons)
 end
 
+-- Highest bonus bar offset scanned (druid forms, rogue stealth, warrior stances, shadowform...).
+local MAX_BONUS_BAR_OFFSET = 5
+
+--- True when an ACTIONBUTTON binding can show a macro in another bar state of the main bar:
+--- page 1 or any bonus bar (stance, form, stealth). A key on the reticle proxy runs `/click` on
+--- the bar button, a silent no-op on a macro, and a swap in combat cannot rebuild the key, so
+--- such a key must press the real button (the native binding follows every swap). Reported on
+--- rogues (stealth) and warriors (stances): macros stopped working until combat ended.
+function CM.ActionButtonHasMacroOnOtherBarState(bindingValue)
+  local buttonNum = bindingValue and bindingValue:match("^ACTIONBUTTON(%d+)$")
+  local id = tonumber(buttonNum)
+  local buttons = tonumber(_G.NUM_ACTIONBAR_BUTTONS) or 12
+  if not id or id < 1 or id > buttons then
+    return false
+  end
+  local pages = tonumber(_G.NUM_ACTIONBAR_PAGES) or 6
+  local function IsMacroSlot(slot)
+    local ok, atype = pcall(GetActionInfo, slot)
+    return ok and atype == "macro"
+  end
+  if IsMacroSlot(id) then
+    return true
+  end
+  for offset = 1, MAX_BONUS_BAR_OFFSET do
+    if IsMacroSlot(id + ((pages + offset - 1) * buttons)) then
+      return true
+    end
+  end
+  return false
+end
+
 local function ReadFrameActionId(frameName)
   if not frameName then
     return nil

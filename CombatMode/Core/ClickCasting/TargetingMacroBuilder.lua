@@ -791,9 +791,35 @@ local function AutoLockEnemies(support)
   return not support and CM.DbBool(CM.DB.char.autoTargetLockOnAttack, false)
 end
 
+-- Saved prelines editor text (global.targetingMacroPreline*Override), or nil when unset, blank or
+-- too long to leave room for the trailing /click.
+local function GetPrelineOverride(key)
+  local v = CM.DB and CM.DB.global and CM.DB.global[key]
+  if type(v) ~= "string" then
+    return nil
+  end
+  v = strtrim(v)
+  if v == "" then
+    return nil
+  end
+  -- Oversized saved overrides would truncate the trailing /click; ignore them.
+  local maxLen = CM.TargetingMacroPrelineMaxLen
+  if maxLen and #v > maxLen then
+    return nil
+  end
+  return v
+end
+
+-- Harmful spells with Ally Cycle keys bound. A saved editor override wins over every variant
+-- (plain, restore-after-harm, auto-lock); the restore post-line is still added after the cast.
 local function GetAllyCycleHarmPreLine(support)
   if AutoLockEnemies(support) then
-    return CLICKCAST_PRE_LINE_AUTO_LOCK_ENEMY
+    return GetPrelineOverride("targetingMacroPrelineAutoLockEnemyOverride")
+      or CLICKCAST_PRE_LINE_AUTO_LOCK_ENEMY
+  end
+  local override = GetPrelineOverride("targetingMacroPrelineEnemyOverride")
+  if override then
+    return override
   end
   if AllyCycleRestoreAfterHarm() then
     return CLICKCAST_PRE_LINE_ALLY_HARM_RESTORE
@@ -870,28 +896,11 @@ end
 -- Settings-only preline (Auto Target Lock, honoring editor overrides).
 -- No per-spell ally-cycle routing; shared with the macro composer.
 function CM.GetActiveTargetingPreline(support)
-  local function GetOverride(key)
-    local v = CM.DB and CM.DB.global and CM.DB.global[key]
-    if type(v) ~= "string" then
-      return nil
-    end
-    v = strtrim(v)
-    if v == "" then
-      return nil
-    end
-    -- Oversized saved overrides would truncate the trailing /click; ignore them.
-    local maxLen = CM.TargetingMacroPrelineMaxLen
-    if maxLen and #v > maxLen then
-      return nil
-    end
-    return v
-  end
-
   if AutoLockEnemies(support) then
-    return GetOverride("targetingMacroPrelineAutoLockEnemyOverride")
+    return GetPrelineOverride("targetingMacroPrelineAutoLockEnemyOverride")
       or CLICKCAST_PRE_LINE_AUTO_LOCK_ENEMY
   end
-  return GetOverride("targetingMacroPrelineEnemyOverride") or CLICKCAST_PRE_LINE_ENEMY
+  return GetPrelineOverride("targetingMacroPrelineEnemyOverride") or CLICKCAST_PRE_LINE_ENEMY
 end
 
 -- Support Mode (Core/ClickCasting/SupportMode.lua): a helpful spell on a click-cast button only
@@ -1271,12 +1280,12 @@ function CM.BuildClickCastMacroText(bindingValue, opts)
   end
   local post = GetClickCastPostLine(spellIdForPreline, routeOverride, opts)
   -- Do not prefix pre-line with [nooverridebar]; that can be misinterpreted in combat and echo to chat.
-  local function Assemble(preLine)
+  local function Assemble(preLine, withPost)
     local text = castLine
     if preLine then
       text = preLine .. "\n" .. text
     end
-    if post then
+    if post and withPost ~= false then
       text = text .. "\n" .. post
     end
     return text
@@ -1285,7 +1294,13 @@ function CM.BuildClickCastMacroText(bindingValue, opts)
   -- A preline with a slimmer stand-in gives way when the whole macro would not fit in 255.
   local slimmer = pre and SLIMMER_PRELINE[pre]
   if slimmer and #text > SECURE_MACROTEXT_MAX then
-    text = Assemble(slimmer)
+    pre = slimmer
+    text = Assemble(pre)
+  end
+  -- A long editor override can still pass 255 with the restore post-line, which would cut the
+  -- post-line mid-command. Drop it instead (the /click must stay whole).
+  if post and #text > SECURE_MACROTEXT_MAX then
+    text = Assemble(pre, false)
   end
   return text, supportPreline or false
 end

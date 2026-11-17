@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Your edits in the **Prelines Editor** now apply to harmful spells on click-cast buttons and bar keys while the **Ally Cycle** keys are bound. Before, the built-in preline was used instead. A long preline that would push the macro past the 255-character limit now drops the restore-after-harm retarget line instead of cutting it in half.
 - Friendly pet and minion nameplates, which the **Cycle Lock** keys skip, are now hidden when **Cycle NPCs and Pets** is off, in and out of **Support Mode**. Turning the option on restores your own setting.
 - Click-cast buttons no longer stop working after you switch **Support Mode** on or off when the action bar slot holds a macro (such as a **Reticle Targeting Macro**) on one page and a spell on the other. Before, the button did nothing until you reloaded.
 

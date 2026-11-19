@@ -446,7 +446,6 @@ function CM.ApplyGroundCastKeyOverrides()
             realFrame
             and spellId
             and CM.IsExcludedFromTargetingSpell(spellId)
-            and not CM.ShouldSelfCastOutsideSupport(spellId)
             and not CM.IsCastAtCursorSpell(spellId)
           then
             SetOverrideBinding(

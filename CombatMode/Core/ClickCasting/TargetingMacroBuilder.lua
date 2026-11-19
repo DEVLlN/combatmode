@@ -1110,8 +1110,8 @@ end
 -- With Auto Target Lock on, two more lines lock the ally who took the heal (SupportAutoLockText,
 -- or SupportAutoLockTargetText when Prioritize Crosshair Target is on as well).
 -- nil = no name yet: the caller keeps SupportPreLine + /click (which never auto-locks).
--- Second return: the text for the Support Mode self-cast key (SupportMode.lua swaps it in while
--- that key is held): the spell on you and nothing else, so the target, the lock and the
+-- Second return: the self-cast text shared by the Support Mode hold key and the
+-- optional normal-mode self-cast for helpful Click Casting spells. It leaves the target, the lock and the
 -- Shoulder Offset camera stay as they are (/tar player + /click re-centres that camera).
 local function SupportCastLine(spellId)
   if not spellId or not (C_Spell and C_Spell.GetSpellInfo) then
@@ -1262,6 +1262,16 @@ function CM.BuildClickCastMacroText(bindingValue, opts)
     -- Special action bar abilities (override, bonus, shapeshift): don't inject pre-line, just click the button directly
     if isSpecialBarButton then
       return castLine
+    end
+    if
+      opts
+      and opts.clickCast
+      and not opts.support
+      and CM.DbBool(CM.DB.char.supportModeSelfCast, false)
+      and GetAllyCycleSpellRoute(spellIdForPreline) == "help"
+    then
+      local _, selfText = SupportCastLine(spellIdForPreline)
+      return selfText or "/stopmacro"
     end
     -- Spell in blacklist (e.g. self-cast defensives): don't apply targeting pre-line.
     if

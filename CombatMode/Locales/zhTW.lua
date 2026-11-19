@@ -818,3 +818,7 @@ L["Macro is %d characters over the %d limit."] =
 L["Macro “%s” no longer fits with the current preline; edit it from Reticle Targeting Macros."] =
   "巨集「%s」與目前前置行合併後已超出長度限制；請在準星瞄準巨集中編輯。"
 L["Click to print URL to chat"] = "點擊將 URL 輸出到聊天"
+
+L["Self-cast outside Support Mode"] = "在支援模式外對自己施法"
+L["Automatically cast helpful Click Casting spells on yourself outside Support Mode. In Support Mode, hold the Self-Cast Keybind for occasional self-heals."] =
+  "在支援模式關閉時，自動對自己施放有益的點擊施法法術。在支援模式中，需要治療自己時可按住自我施法快捷鍵。"

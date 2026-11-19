@@ -325,15 +325,17 @@ end
 local function BuildModeMacroTexts(bindingValue, strict)
   local ctx = CM.GetSupportModeBuildContext()
   if not ctx then
-    return (CM.BuildClickCastMacroText(bindingValue)), nil
+    return (CM.BuildClickCastMacroText(bindingValue, strict and { clickCast = true } or nil)), nil
   end
   local page, active = ctx.page, ctx.active
   local isMainBar = bindingValue:match("^ACTIONBUTTON%d+$") ~= nil
   if not strict and not (page and isMainBar) then
     return (CM.BuildClickCastMacroText(bindingValue)), nil
   end
-  local normalText =
-    CM.BuildClickCastMacroText(bindingValue, active and page and { page = 1 } or nil)
+  local normalText = CM.BuildClickCastMacroText(
+    bindingValue,
+    { page = active and page and 1 or nil, clickCast = strict }
+  )
   if not strict then
     return normalText, (CM.BuildClickCastMacroText(bindingValue, { page = page }))
   end

@@ -2,7 +2,7 @@
 --  UI/Options/Tabs/TabClickCasting.lua — OPTIONS TAB — click-cast slot overrides
 ---------------------------------------------------------------------------------------
 --  What it does: Wires the eight mouse click-cast slots (base + shift/ctrl/alt) with
---  enable, key, action dropdown (OverrideActions: Clear Target / Focus, Start Attack / Pet Attack, Toggle Focus Enemy + ActionsToProcess;
+--  enable, key, action dropdown (including Start Attack, Lock and Attack, Toggle Focus Enemy and ActionsToProcess;
 --  the Target Lock keybind is separate and follows Target Lock Behavior),
 --  Run MACRO picker: a dropdown of the player's macros (icon + Reticle Targeting tag), and useGlobalBindings.
 --  Applies via SetNewBinding / ResetBindingOverride.
@@ -42,6 +42,7 @@ local OVERRIDE_ORDER = {
   "CLEARTARGET",
   "TARGETMOUSEOVER",
   "STARTATTACK",
+  "LOCKANDATTACK",
   "PETATTACK",
   "TOGGLEFOCUSENEMY",
   "MACRO",
@@ -69,6 +70,7 @@ local OVERRIDE_LABELS = {
   TARGETMOUSEOVER = "|cff69ccf0" .. L["Target Crosshair"] .. "|r",
   CLEARFOCUS = "|cff69ccf0" .. L["Clear Focus"] .. "|r",
   STARTATTACK = "|cff69ccf0" .. L["Start Attack"] .. "|r",
+  LOCKANDATTACK = "|cff69ccf0" .. L["Lock and Attack"] .. "|r",
   PETATTACK = "|cff69ccf0" .. L["Pet Attack"] .. "|r",
   TOGGLEFOCUSENEMY = "|cff69ccf0" .. L["Toggle Focus Enemy"] .. "|r",
   MACRO = "|cff69ccf0" .. L["Run MACRO"] .. "|r",

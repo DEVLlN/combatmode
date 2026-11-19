@@ -561,14 +561,19 @@ local ACTION_MACRO_TEXTS = {
   CLEARTARGET = CM.Constants.Macros.CM_ClearTarget,
   CLEARFOCUS = CM.Constants.Macros.CM_ClearFocus,
   STARTATTACK = CM.Constants.Macros.CM_StartAttack,
+  LOCKANDATTACK = CM.Constants.Macros.CM_LockAndAttack,
   PETATTACK = CM.Constants.Macros.CM_PetAttack,
 }
 -- Toggle Focus click-cast actions follow Target Lock Behavior (Toggle / Switch Target).
 local FOCUS_ACTION_MACRO_KEYS = {
   TOGGLEFOCUSENEMY = { toggle = "CM_ToggleFocusEnemy", switch = "CM_SwitchFocusEnemy" },
 }
--- Second return: the Support Mode text (Toggle Focus actions lock friendly units there), or nil.
+-- Second return: the Support Mode text, or nil to use the same macro in both modes.
 local function ActionMacroText(value)
+  if value == "LOCKANDATTACK" then
+    -- Start Attack can still swing in Support Mode while leaving the ally focus in place.
+    return ACTION_MACRO_TEXTS[value], ACTION_MACRO_TEXTS.STARTATTACK
+  end
   local focus = FOCUS_ACTION_MACRO_KEYS[value]
   if focus then
     local behavior = CM.DB.char.targetLockBehavior == "switch" and "switch" or "toggle"

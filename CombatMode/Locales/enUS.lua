@@ -257,6 +257,7 @@ L["Clear Target"] = true
 L["Target Crosshair"] = true
 L["Clear Focus"] = true
 L["Start Attack"] = true
+L["Lock and Attack"] = true
 L["Pet Attack"] = true
 L["Toggle Focus Enemy"] = true
 L["Run MACRO"] = true

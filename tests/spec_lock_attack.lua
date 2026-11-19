@@ -10,14 +10,22 @@ return function(Check, CM)
   local baseFrame = frame
   local macro = normal
   CM.SetNewBinding({ enabled = true, key = "SHIFT-BUTTON2", value = "LOCKANDATTACK" })
+  local modifierFrame = frame
+  Check("modifier slot runs the same macro", normal, macro)
+  CM.SetNewBinding({ enabled = true, key = "BUTTON4", value = "LOCKANDATTACK" })
+  local firstSideFrame = frame
+  Check("button 4 has its own proxy", firstSideFrame ~= modifierFrame, true)
+  Check("button 4 runs the same macro", normal, macro)
+  CM.SetNewBinding({ enabled = true, key = "BUTTON5", value = "LOCKANDATTACK" })
+  Check("button 5 has its own proxy", frame ~= firstSideFrame, true)
+  Check("button 5 runs the same macro", normal, macro)
   CM.SetModeMacroText = original
 
   Check(
     "base and modifier slots use distinct proxies",
-    baseFrame ~= nil and frame ~= baseFrame,
+    baseFrame ~= nil and modifierFrame ~= baseFrame,
     true
   )
-  Check("both slots run the same macro", normal, macro)
   Check(
     "aimed living enemy takes priority over the existing enemy lock",
     macro,

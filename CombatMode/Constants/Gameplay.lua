@@ -28,7 +28,7 @@
 --    • ActionsToProcess = ClickCastBars slots + other bindable Blizzard actions
 --      (pings, arena target/focus, vehicles, party pets, sit/sheath/run, pitch, …);
 --      OverrideActions labels CM-specific clear/toggle/macro choices;
---      ButtonsToOverride lists the 8 mouse slots.
+--      ButtonsToOverride lists the primary mouse slots with modifiers and the side buttons.
 --  Does not: Register events, create macros, or SetOverrideBinding (Bootstrap /
 --  EventRouter / BindingOverrides do).
 --  Related: Core/Runtime/EventRouter.lua, Core/ClickCasting/BindingOverrides.lua,
@@ -422,4 +422,6 @@ CM.Constants.ButtonsToOverride = {
   "ctrlbutton2",
   "altbutton1",
   "altbutton2",
+  "button4",
+  "button5",
 }

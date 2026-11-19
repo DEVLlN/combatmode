@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------------------
 --  UI/Options/Tabs/TabClickCasting.lua — OPTIONS TAB — click-cast slot overrides
 ---------------------------------------------------------------------------------------
---  What it does: Wires the eight mouse click-cast slots (base + shift/ctrl/alt) with
+--  What it does: Wires primary mouse clicks (base + Shift/Ctrl/Alt) and side buttons with
 --  enable, key, action dropdown (including Start Attack, Lock and Attack, Toggle Focus Enemy and ActionsToProcess;
 --  the Target Lock keybind is separate and follows Target Lock Behavior),
 --  Run MACRO picker: a dropdown of the player's macros (icon + Reticle Targeting tag), and useGlobalBindings.
@@ -130,7 +130,7 @@ local function CharScopedBindings()
   return not CM.DB.char.useGlobalBindings
 end
 
-local function AddSlot(layout, slot, label, modifier, iconAtlas, leadingIconTexture)
+local function AddSlot(layout, slot, label, canDisable, iconAtlas, leadingIconTexture)
   layout:Toggle({
     label = label,
     desc = L["Override this click during Mouse Look."],
@@ -155,7 +155,7 @@ local function AddSlot(layout, slot, label, modifier, iconAtlas, leadingIconText
       end
     end,
     disabled = function()
-      return modifier == nil
+      return not canDisable
     end,
   })
   layout:Dropdown({
@@ -259,7 +259,7 @@ local function BuildGroupPanel(parent, width, modifier, group, tabSearch)
     layout,
     Slot(modifier, 1),
     leftLabel,
-    modifier,
+    modifier ~= nil,
     "newplayertutorial-icon-mouse-leftbutton",
     leadingIconTexture
   )
@@ -268,10 +268,16 @@ local function BuildGroupPanel(parent, width, modifier, group, tabSearch)
     layout,
     Slot(modifier, 2),
     rightLabel,
-    modifier,
+    modifier ~= nil,
     "newplayertutorial-icon-mouse-rightbutton",
     leadingIconTexture
   )
+  if not modifier then
+    for _, button in ipairs({ 4, 5 }) do
+      layout:Gap(8)
+      AddSlot(layout, Slot(nil, button), string.format(L["Mouse Button %d"], button), true)
+    end
+  end
   layout:Finish()
   --- Height of the rows currently visible (the Macro row only shows for Run MACRO).
   function panel.FitHeight()
@@ -337,9 +343,7 @@ UI.Options.AddTab({
   build = function(ctx)
     BuildActionValues()
     ctx:Header(L["CLICK CASTING"])
-    ctx:Description(
-      L["Assign override actions to left and right clicks that are active during Mouse Look."]
-    )
+    ctx:Description(L["Assign override actions to mouse buttons during Mouse Look."])
     ctx:Toggle({
       label = L["Account-Wide Binds"],
       desc = L["Share Click Casting binds across all characters."],

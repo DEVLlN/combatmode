@@ -120,8 +120,11 @@ local CLICKCAST_KEYS = {
   "CTRL-BUTTON2",
   "ALT-BUTTON1",
   "ALT-BUTTON2",
+  "BUTTON4",
+  "BUTTON5",
 }
 local ClickCastFramesByKey = {}
+local ActiveClickCastKeys = {}
 for i, key in ipairs(CLICKCAST_KEYS) do
   local f =
     CreateFrame("Button", "CombatModeClickCast" .. i, UIParent, "SecureActionButtonTemplate")
@@ -586,11 +589,14 @@ for value, text in pairs(CM.Constants.BlizzardActionMacros) do
 end
 
 function CM.SetNewBinding(buttonSettings)
-  if not buttonSettings.enabled then
+  local key, value = buttonSettings.key, buttonSettings.value
+  if not buttonSettings.enabled or not value or value == "" then
+    if ActiveClickCastKeys[key] then
+      CM.ResetBindingOverride(buttonSettings)
+    end
     return
   end
 
-  local key, value = buttonSettings.key, buttonSettings.value
   local valueToUse
   if value == "MACRO" then
     valueToUse = "MACRO " .. buttonSettings.macroName
@@ -629,6 +635,7 @@ function CM.SetNewBinding(buttonSettings)
     end
   end
   SetMouselookOverrideBinding(key, valueToUse)
+  ActiveClickCastKeys[key] = valueToUse ~= nil or nil
 end
 
 function CM.OverrideDefaultButtons()
@@ -639,6 +646,7 @@ end
 
 function CM.ResetBindingOverride(buttonSettings)
   SetMouselookOverrideBinding(buttonSettings.key, nil)
+  ActiveClickCastKeys[buttonSettings.key] = nil
   CM.DebugPrint(buttonSettings.key .. "'s override binding is now cleared")
 end
 

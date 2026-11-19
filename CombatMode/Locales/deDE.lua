@@ -334,8 +334,9 @@ L["Alt + Left Click"] = "Alt + Linksklick"
 L["Alt + Right Click"] = "Alt + Rechtsklick"
 L["Click Casting"] = "Klick-Zauberwirken"
 L["CLICK CASTING"] = "KLICK-ZAUBERWIRKEN"
-L["Assign override actions to left and right clicks that are active during Mouse Look."] =
-  "Weise dem Links- und Rechtsklick Aktionen zu, die während des Mausblicks aktiv sind."
+L["Mouse Button %d"] = "Maustaste %d"
+L["Assign override actions to mouse buttons during Mouse Look."] =
+  "Weise Maustasten während der Maussteuerung alternative Aktionen zu."
 L["Account-Wide Binds"] = "Accountweite Belegungen"
 L["Share Click Casting binds across all characters."] =
   "Klick-Zauber-Belegungen für alle Charaktere teilen."

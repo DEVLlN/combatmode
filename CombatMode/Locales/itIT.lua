@@ -333,8 +333,9 @@ L["Alt + Left Click"] = "Alt + Clic sinistro"
 L["Alt + Right Click"] = "Alt + Clic destro"
 L["Click Casting"] = "Lancio con clic"
 L["CLICK CASTING"] = "LANCIO CON CLIC"
-L["Assign override actions to left and right clicks that are active during Mouse Look."] =
-  "Assegna azioni sostitutive ai clic sinistro e destro, attive durante la vista con mouse."
+L["Mouse Button %d"] = "Pulsante del mouse %d"
+L["Assign override actions to mouse buttons during Mouse Look."] =
+  "Assegna azioni alternative ai pulsanti del mouse durante la visuale con il mouse."
 L["Account-Wide Binds"] = "Assegnazioni per tutto l'account"
 L["Share Click Casting binds across all characters."] =
   "Condivide le assegnazioni di lancio con clic tra tutti i personaggi."

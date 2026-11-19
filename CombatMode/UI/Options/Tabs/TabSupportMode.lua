@@ -2,10 +2,11 @@
 --  UI/Options/Tabs/TabSupportMode.lua — OPTIONS TAB — Support Mode
 ---------------------------------------------------------------------------------------
 --  What it does: Support Mode keybind (a toggle), Self-Cast keybind (a hold), Prioritize
---  Crosshair Target, the optional self-cast default for helpful Click Casting spells outside Support Mode, support bar page,
+--  Crosshair Target, support bar page,
 --  Cycle NPCs and Pets, Cycle in Group Order, Vignette tint toggle and the nameplates dropdown. An unbound Support Mode key disables it.
 --  (The Support crosshair color and texture are on the Crosshair tab: Reaction Colors and
 --  Appearance.)
+--  Self-cast outside Support Mode is configured on the Reticle Targeting tab.
 --  Architecture / how it works:
 --    • DB.char.supportMode* (per character). Every setter re-stores the secure key
 --      (CM.ApplySupportModeBinding) and rebuilds the click-cast macros
@@ -107,20 +108,6 @@ UI.Options.AddTab({
           CM.AssignNamedKeybind(SELF_BIND_NAME, key)
           Apply()
         end)
-      end,
-      disabled = ReticleTargetingOff,
-      watermarkWhenDisabled = ReticleTargetingNotice,
-    })
-    ctx:Toggle({
-      label = L["Self-cast outside Support Mode"],
-      desc = L["Automatically cast helpful Click Casting spells on yourself outside Support Mode. In Support Mode, hold the Self-Cast Keybind for occasional self-heals."],
-      charSpecific = true,
-      get = function()
-        return CM.DbBool(CM.DB.char.supportModeSelfCast, false)
-      end,
-      set = function(value)
-        CM.DB.char.supportModeSelfCast = value
-        Apply()
       end,
       disabled = ReticleTargetingOff,
       watermarkWhenDisabled = ReticleTargetingNotice,

@@ -54,39 +54,41 @@ return function(check, loadedCM)
   local function build(opts)
     return CM.BuildClickCastMacroText(binding, opts)
   end
-  local click = { clickCast = true }
   kind = "macro"
   check("custom macro slot keeps click route", build(), "/click MultiBarBottomLeftButton1")
   kind = "spell"
-  local original = build(click)
-  check("default preserves routing", original, build())
+  local original = build()
   CM.DB.char.supportModeSelfCast = true
-  check("helpful click-cast targets player", build(click), "/cast [@player] Heal(Rank 2)")
-  check("keyboard routing stays unchanged", build(), original)
+  check(
+    "helpful spell targets player outside Support Mode",
+    build(),
+    "/cast [@player] Heal(Rank 2)"
+  )
+  check(
+    "keyboard routing stays ordinary inside Support Mode",
+    build({ inSupportMode = true }),
+    original
+  )
   check(
     "support mode retains allies",
     build({ support = true }):find("@mouseover", 1, true) ~= nil,
     true
   )
-  check(
-    "alternate page self cast",
-    build({ page = 2, clickCast = true }),
-    "/cast [@player] Heal(Rank 2)"
-  )
+  check("alternate page self cast", build({ page = 2 }), "/cast [@player] Heal(Rank 2)")
   excluded = true
-  check("excluded helpful spell still self casts", build(click), "/cast [@player] Heal(Rank 2)")
+  check("excluded helpful spell still self casts", build(), "/cast [@player] Heal(Rank 2)")
   cursor = true
-  check("self cast precedes cursor list", build(click), "/cast [@player] Heal(Rank 2)")
+  check("self cast precedes cursor list", build(), "/cast [@player] Heal(Rank 2)")
   excluded, cursor = false, false
   missingName = true
-  check("missing spell data cannot target ally", build(click), "/stopmacro")
+  check("missing spell data cannot target ally", build(), "/stopmacro")
   missingName = false
   id = 2
-  check("harmful spells unchanged", build(click), build())
+  check("harmful spells unchanged", build(), build({ inSupportMode = true }))
   id = 1
   CM.DB.char.supportModeSelfCast = false
-  check("disabling restores previous routing", build(click), original)
+  check("disabling restores previous routing", build(), original)
   CM.DB.char.supportModeSelfCast = true
   CM.DB.char.reticleTargeting = false
-  check("disabled reticle targeting", build(click), nil)
+  check("disabled reticle targeting", build(), nil)
 end

@@ -820,5 +820,5 @@ L["Macro “%s” no longer fits with the current preline; edit it from Reticle 
 L["Click to print URL to chat"] = "点击将 URL 输出到聊天"
 
 L["Self-cast outside Support Mode"] = "在支援模式外对自己施法"
-L["Automatically cast helpful Click Casting spells on yourself outside Support Mode. In Support Mode, hold the Self-Cast Keybind for occasional self-heals."] =
-  "在支援模式关闭时，自动对自己施放有益的点击施法法术。在支援模式中，按住自我施法快捷键即可偶尔治疗自己。"
+L["Cast helpful Reticle Targeting spells on yourself automatically outside Support Mode. In Support Mode, hold the Self-Cast Keybind for occasional self-heals."] =
+  "在支援模式关闭时，将准星选定功能的有益法术自动施放给自己。在支援模式中，按住自我施法快捷键即可治疗自己。"

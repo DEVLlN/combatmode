@@ -886,5 +886,5 @@ L["Click to print URL to chat"] = "Нажмите, чтобы вывести с�
 
 L["Self-cast outside Support Mode"] =
   "Применение на себя вне режима поддержки"
-L["Automatically cast helpful Click Casting spells on yourself outside Support Mode. In Support Mode, hold the Self-Cast Keybind for occasional self-heals."] =
-  "Вне режима поддержки полезные заклинания по щелчку автоматически применяются к вам. В режиме поддержки удерживайте клавишу применения на себя, если нужно вылечить себя."
+L["Cast helpful Reticle Targeting spells on yourself automatically outside Support Mode. In Support Mode, hold the Self-Cast Keybind for occasional self-heals."] =
+  "Вне режима поддержки полезные заклинания с наведением по прицелу автоматически применяются к вам. В режиме поддержки удерживайте клавишу применения на себя, если нужно вылечить себя."

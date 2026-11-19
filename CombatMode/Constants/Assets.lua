@@ -155,6 +155,7 @@ CM.Constants.CrosshairTextureIdByPath = {}
 local crosshairAssetNames = {
   "Arrows",
   "Default",
+  "Diamond",
   "Ornated",
   "Triangle",
 }
@@ -169,6 +170,10 @@ CM.Constants.CrosshairIdleDefaultId = "Dot"
 -- texture (the normal ones stay).
 CM.Constants.CrosshairSupportDefaultId = "Default-support"
 CM.Constants.CrosshairSupportTexture = crosshairPath .. "crosshairDefault-support.blp"
+-- Support texture of every preset but Default (crosshairSupport.blp; catalog id below). The
+-- Crosshair Textures editor applies a preset's Support texture with it.
+CM.Constants.CrosshairSupportGenericId = "Support"
+CM.Constants.CrosshairSupportGenericTexture = crosshairPath .. "crosshairSupport.blp"
 
 local PACK_COUNT = 202
 
@@ -200,7 +205,7 @@ for _, assetName in ipairs(crosshairAssetNames) do
 end
 
 -- The Dot preset has no separate hit art: the same texture serves Inactive and Active (the hit
--- feedback is the scale pulse and tint). It replaced the Diamond preset.
+-- feedback is the scale pulse and tint).
 CM.Constants.CrosshairTextureObj.Dot = {
   Name = "Dot",
   Base = CM.Constants.CrosshairDotTexture,
@@ -243,11 +248,12 @@ do
     "Support",
     "curated"
   )
-  -- Saved Diamond choices (removed preset) resolve to the Dot, by path and by id.
-  for _, legacy in ipairs({ "crosshairDiamond.blp", "crosshairDiamond-hit.blp" }) do
-    CM.Constants.CrosshairTextureIdByPath[crosshairPath .. legacy] = "Dot"
-  end
-  CM.Constants.CrosshairLegacyIds = { Diamond = "Dot", ["Diamond-hit"] = "Dot" }
+  AddCrosshairTexture(
+    CM.Constants.CrosshairSupportGenericId,
+    CM.Constants.CrosshairSupportGenericTexture,
+    "Support (generic)",
+    "curated"
+  )
   for i = 0, PACK_COUNT - 1 do
     local n = format("%03d", i)
     AddCrosshairTexture(
@@ -292,9 +298,8 @@ function CM.Constants.NormalizeCrosshairAppearance(saved)
   end
   local byPath = CM.Constants.CrosshairTextureIdByPath
   -- Paths first: they are what older versions saved, and always agree with ids on new saves.
-  local legacy = CM.Constants.CrosshairLegacyIds
-  local baseId = byPath[saved.Base] or legacy[saved.BaseId] or saved.BaseId
-  local activeId = byPath[saved.Active] or legacy[saved.ActiveId] or saved.ActiveId
+  local baseId = byPath[saved.Base] or saved.BaseId
+  local activeId = byPath[saved.Active] or saved.ActiveId
   local normalized = baseId and activeId and CM.Constants.MakeCrosshairAppearance(baseId, activeId)
   return normalized or CM.Constants.CrosshairTextureObj[saved.Name]
 end

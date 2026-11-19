@@ -440,12 +440,15 @@ L["A support-focused mode that, when active, switches your main action bar to a 
   "Un modo centrado en el apoyo que, al activarse, cambia tu barra de acción principal a una página de apoyo dedicada y permite que los hechizos beneficiosos apunten a la unidad amistosa bajo tu mira."
 L["Support Mode Keybind"] = "Tecla del modo de apoyo"
 L["Self-Cast Keybind"] = "Tecla de autolanzamiento"
-L["Hold while in Support Mode to cast the helpful spells on your click-cast buttons on yourself. Your target and Target Lock stay as they are."] =
-  "Mantenla pulsada en el Modo de apoyo para lanzarte a ti los hechizos beneficiosos de tus botones de clic. Tu objetivo y Fijar objetivo no cambian."
+L["Hold to cast your click-cast helpful spells on yourself. Your target and Target Lock don't change."] =
+  "Mantenla pulsada para lanzarte a ti los hechizos beneficiosos de tus botones de clic. Tu objetivo y Fijar objetivo no cambian."
 L["Prioritize Crosshair Target"] = "Priorizar el objetivo de la mira"
 L["Cycle NPCs and Pets"] = "Alternar entre PNJ y mascotas"
-L["Cycle Lock normally moves only between nearby players in Support Mode. Turn this on to include nearby NPCs and pets too. While this is off, Support Mode also hides the nameplates of NPCs and pets."] =
-  "Alternar fijación normalmente solo cambia entre jugadores cercanos en el modo de apoyo. Actívalo para incluir también PNJ y mascotas cercanos. Mientras esté desactivado, el modo de apoyo también oculta las placas de nombre de PNJ y mascotas."
+L["Cycle Lock also includes nearby NPCs and pets. While off, friendly pet nameplates are hidden."] =
+  "Alternar fijación también incluye PNJ y mascotas cercanos. Mientras esté desactivado, las placas de nombre de mascotas amistosas se ocultan."
+L["Cycle in Group Order"] = "Alternar en orden de grupo"
+L["Cycle Lock follows your party or raid order instead of the nearest ally. The first press locks the first member (Next) or the last (Previous)."] =
+  "Alternar fijación sigue el orden de tu grupo o banda en lugar del aliado más cercano. La primera pulsación fija al primer miembro (Siguiente) o al último (Anterior)."
 L["Prioritizes the ally under your crosshair over other friendly targets (e.g. Ally Cycle). Disable to prioritize your selected target instead."] =
   "El aliado bajo tu mira recibe el hechizo aunque tengas seleccionado otro objetivo amistoso, como una selección del Ciclo de aliados. Desactívalo para lanzar primero sobre tu objetivo seleccionado."
 L["Tap to toggle Support Mode on or off."] = "Pulsa para activar o desactivar el Modo de apoyo."
@@ -840,5 +843,5 @@ L["Click to print URL to chat"] = "Haz clic para mostrar la URL en el chat"
 
 -- Support Mode target locking
 L["Disable Target Lock"] = "Desactivar fijación de objetivo"
-L["Disable manual and automatic Target Lock in Support Mode. Entering Support Mode clears your lock."] =
-  "Desactiva la fijación manual y automática de objetivo en el modo de apoyo. Entrar en el modo de apoyo elimina la fijación."
+L["Disable manual and automatic Target Lock in Support Mode. Entering Support Mode clears your lock. If you are already in Support Mode, leave and re-enter to clear it."] =
+  "Desactiva la fijación manual y automática de objetivo en el modo de apoyo. Entrar en el modo de apoyo elimina la fijación. Si ya estás en el modo de apoyo, sal y vuelve a entrar para quitar el bloqueo."

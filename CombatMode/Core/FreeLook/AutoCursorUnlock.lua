@@ -17,6 +17,7 @@
 --    • OPie path may free centering + hide crosshair via FreeLook helpers.
 --    • CloseUnlockWindows — closes those same windows, in combat only the unprotected ones (Close Windows
 --      option, called by the Mouse Look key).
+--    • IsChatInputActive checks the focused chat input when unlockWhileChatting is on.
 --  Does not: Own Lock/Unlock or ShouldFreeLookBeOff aggregation.
 --  Related: Constants/FrameWatch.lua, Core/FreeLook/FreeLookController.lua,
 --  Core/Runtime/UserLuaCondition.lua, UI/Options/Tabs/TabAutoCursorUnlock.lua,
@@ -100,10 +101,12 @@ end
 
 -- Active chat input only: a visible chat history never keeps Mouse Look unlocked.
 function CM.IsChatInputActive()
-  if not CM.DB.global.unlockWhileChatting then
+  if not CM.DbBool(CM.DB.global.unlockWhileChatting, true) then
     return false
   end
-  local editBox = _G.ChatEdit_GetActiveWindow and _G.ChatEdit_GetActiveWindow()
+  local chat = _G.ChatFrameUtil
+  local getActiveWindow = (chat and chat.GetActiveWindow) or _G.ChatEdit_GetActiveWindow
+  local editBox = getActiveWindow and getActiveWindow()
   if not editBox or (editBox.IsForbidden and editBox:IsForbidden()) then
     return false
   end

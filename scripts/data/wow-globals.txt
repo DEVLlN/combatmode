@@ -102,6 +102,7 @@ CanLootUnit
 CastPetAction
 ChangeActionBarPage
 ChatEdit_GetActiveWindow
+ChatFrameUtil
 CLASS_ICON_TCOORDS
 ClearCursor
 ClearOverrideBindings

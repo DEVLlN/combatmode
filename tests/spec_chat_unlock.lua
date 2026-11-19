@@ -1,5 +1,7 @@
 return function(check, CM, env)
   local oldDB, oldAPI = CM.DB, env.ChatEdit_GetActiveWindow
+  local oldChat = env.ChatFrameUtil
+  env.ChatFrameUtil = false
   CM.DB = { global = { unlockWhileChatting = true, frameWatching = false } }
   env.ChatEdit_GetActiveWindow = nil
   check("missing chat API", CM.IsChatInputActive(), false)
@@ -21,6 +23,15 @@ return function(check, CM, env)
     end,
   }
   check("typing unlocks even with frame watching off", CM.IsChatInputActive(), true)
+  env.ChatFrameUtil = {
+    GetActiveWindow = function()
+      return active
+    end,
+  }
+  env.ChatEdit_GetActiveWindow = function()
+    error("used legacy chat API")
+  end
+  check("uses modern chat API first", CM.IsChatInputActive(), true)
   focused = false
   check("visible but unfocused input", CM.IsChatInputActive(), false)
   focused, shown = true, false
@@ -33,5 +44,5 @@ return function(check, CM, env)
   CM.DB.global.unlockWhileChatting = true
   active = nil
   check("send or escape releases condition", CM.IsChatInputActive(), false)
-  CM.DB, env.ChatEdit_GetActiveWindow = oldDB, oldAPI
+  CM.DB, env.ChatEdit_GetActiveWindow, env.ChatFrameUtil = oldDB, oldAPI, oldChat
 end

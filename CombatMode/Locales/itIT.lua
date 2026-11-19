@@ -440,12 +440,15 @@ L["A support-focused mode that, when active, switches your main action bar to a 
   "Una modalità orientata al supporto che, quando è attiva, porta la barra delle azioni principale su una pagina di supporto dedicata e permette agli incantesimi benefici di bersagliare l'unità amica sotto il mirino."
 L["Support Mode Keybind"] = "Tasto della modalità supporto"
 L["Self-Cast Keybind"] = "Tasto di lancio su di sé"
-L["Hold while in Support Mode to cast the helpful spells on your click-cast buttons on yourself. Your target and Target Lock stay as they are."] =
-  "Tienilo premuto in Modalità supporto per lanciare su di te gli incantesimi benefici dei tuoi pulsanti di clic. Il tuo bersaglio e il Blocco bersaglio restano invariati."
+L["Hold to cast your click-cast helpful spells on yourself. Your target and Target Lock don't change."] =
+  "Tienilo premuto per lanciare su di te gli incantesimi benefici dei tuoi pulsanti di clic. Il tuo bersaglio e il Blocco bersaglio non cambiano."
 L["Prioritize Crosshair Target"] = "Dai priorità al bersaglio del mirino"
 L["Cycle NPCs and Pets"] = "Alterna tra PNG e famigli"
-L["Cycle Lock normally moves only between nearby players in Support Mode. Turn this on to include nearby NPCs and pets too. While this is off, Support Mode also hides the nameplates of NPCs and pets."] =
-  "Cicla blocco in modalità supporto passa normalmente solo tra i giocatori vicini. Attiva questa opzione per includere anche PNG e famigli vicini. Finché è disattivata, la modalità supporto nasconde anche le targhette di PNG e famigli."
+L["Cycle Lock also includes nearby NPCs and pets. While off, friendly pet nameplates are hidden."] =
+  "Cicla blocco include anche PNG e famigli vicini. Finché è disattivata, le targhette dei famigli amici sono nascoste."
+L["Cycle in Group Order"] = "Alterna in ordine di gruppo"
+L["Cycle Lock follows your party or raid order instead of the nearest ally. The first press locks the first member (Next) or the last (Previous)."] =
+  "Cicla blocco segue l'ordine del tuo gruppo o della tua incursione invece dell'alleato più vicino. La prima pressione blocca il primo membro (Successivo) o l'ultimo (Precedente)."
 L["Prioritizes the ally under your crosshair over other friendly targets (e.g. Ally Cycle). Disable to prioritize your selected target instead."] =
   "L'alleato sotto il mirino riceve l'incantesimo anche se hai selezionato un altro bersaglio amico, come una scelta del Ciclo alleati. Disattiva per lanciare prima sul bersaglio selezionato."
 L["Tap to toggle Support Mode on or off."] =

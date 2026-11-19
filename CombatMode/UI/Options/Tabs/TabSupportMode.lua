@@ -3,7 +3,7 @@
 ---------------------------------------------------------------------------------------
 --  What it does: Support Mode keybind (a toggle), Self-Cast keybind (a hold), Prioritize
 --  Crosshair Target, support bar page,
---  Cycle NPCs and Pets, Vignette tint toggle and the nameplates dropdown. An unbound Support Mode key disables it.
+--  Cycle NPCs and Pets, Cycle in Group Order, Vignette tint toggle and the nameplates dropdown. An unbound Support Mode key disables it.
 --  (The Support crosshair color and texture are on the Crosshair tab: Reaction Colors and
 --  Appearance.)
 --  Architecture / how it works:
@@ -98,7 +98,7 @@ UI.Options.AddTab({
     })
     ctx:Keybind({
       label = L["Self-Cast Keybind"],
-      desc = L["Hold while in Support Mode to cast the helpful spells on your click-cast buttons on yourself. Your target and Target Lock stay as they are."],
+      desc = L["Hold to cast your click-cast helpful spells on yourself. Your target and Target Lock don't change."],
       get = function()
         return (GetBindingKey(SELF_BIND_NAME))
       end,
@@ -127,21 +127,39 @@ UI.Options.AddTab({
     })
     ctx:Toggle({
       label = L["Cycle NPCs and Pets"],
-      desc = L["Cycle Lock normally moves only between nearby players in Support Mode. Turn this on to include nearby NPCs and pets too. While this is off, Support Mode also hides the nameplates of NPCs and pets."],
+      desc = L["Cycle Lock also includes nearby NPCs and pets. While off, friendly pet nameplates are hidden."],
       charSpecific = true,
       get = function()
         return CM.DbBool(CM.DB.char.supportModeCycleNPCs, false)
       end,
       set = function(value)
         CM.DB.char.supportModeCycleNPCs = value and true or false
+        -- Apply also sets the pet and minion nameplates (CM.RefreshSupportModePetNameplates).
         Apply()
         -- The cycle buttons' Support Mode text is stored by this, not by the macro refresh.
         if CM.ApplyCycleFocusBindings then
           CM.ApplyCycleFocusBindings()
         end
-        -- Pet, minion and NPC nameplates follow this option while the mode is on.
-        if CM.SyncSupportModeNameplates then
-          CM.SyncSupportModeNameplates()
+        -- Group order: whether Cycle Lock presses stop on pets (Ally Cycle's lockPets attribute).
+        if CM.ApplyAllyCycleBindings then
+          CM.ApplyAllyCycleBindings()
+        end
+      end,
+      disabled = ReticleTargetingOff,
+      watermarkWhenDisabled = ReticleTargetingNotice,
+    })
+    ctx:Toggle({
+      label = L["Cycle in Group Order"],
+      desc = L["Cycle Lock follows your party or raid order instead of the nearest ally. The first press locks the first member (Next) or the last (Previous)."],
+      charSpecific = true,
+      get = function()
+        return CM.DbBool(CM.DB.char.supportModeCycleGroupOrder, false)
+      end,
+      set = function(value)
+        CM.DB.char.supportModeCycleGroupOrder = value and true or false
+        -- Stores the cycle buttons' Support Mode text (queued while in combat).
+        if CM.ApplyCycleFocusBindings then
+          CM.ApplyCycleFocusBindings()
         end
       end,
       disabled = ReticleTargetingOff,
@@ -194,6 +212,10 @@ UI.Options.AddTab({
         CM.DB.char.supportModeNameplateMode = value
         if CM.SyncSupportModeNameplates then
           CM.SyncSupportModeNameplates()
+        end
+        -- "Don't Change" also leaves the pet and minion nameplates alone.
+        if CM.RefreshSupportModePetNameplates then
+          CM.RefreshSupportModePetNameplates()
         end
       end,
       disabled = ReticleTargetingOff,

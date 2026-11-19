@@ -245,6 +245,7 @@ ToggleSheath
 tonumber
 tostring
 type
+UIErrorsFrame
 UIParent
 UISpecialFrames
 UnitAffectingCombat

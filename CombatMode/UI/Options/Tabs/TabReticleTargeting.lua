@@ -254,7 +254,6 @@ local function BuildMacroShelfRow(parent, width, onHeight)
 end
 
 UI.Options.AddTab({
-  newFeatureFlag = true,
   id = "reticle",
   label = L["Reticle Targeting"],
   build = function(ctx)

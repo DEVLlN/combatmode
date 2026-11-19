@@ -121,8 +121,8 @@ DynamicResizeButton_Resize
 EditMacro
 Enum
 EnumerateFrames
+EventRegistry
 FlipCameraYaw
-FocusFrame
 GameEvent
 GameFontHighlight
 GameFontHighlightMedium
@@ -245,7 +245,6 @@ ToggleSheath
 tonumber
 tostring
 type
-UIErrorsFrame
 UIParent
 UISpecialFrames
 UnitAffectingCombat

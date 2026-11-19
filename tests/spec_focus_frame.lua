@@ -1,6 +1,6 @@
 -- Focus-frame hiding preserves native visibility and defers protected changes in combat.
 return function(check, CM, env)
-  local combat = false
+  local combat, editing = false, false
   local original = {}
   local parent = original
   local writes = 0
@@ -17,6 +17,11 @@ return function(check, CM, env)
   local testCM = { DB = { char = {} }, DbBool = CM.DbBool }
   local testEnv = setmetatable({
     FocusFrame = frame,
+    EditModeManagerFrame = {
+      IsEditModeActive = function()
+        return editing
+      end,
+    },
     InCombatLockdown = function()
       return combat
     end,
@@ -54,11 +59,20 @@ return function(check, CM, env)
   check("restores original parent", parent, original)
   testCM.DB.char.hideFocusFrame = true
   apply()
+  editing = true
+  apply()
+  check("Edit Mode restores native parent", parent, original)
+  editing = false
+  apply()
+  check("leaving Edit Mode hides frame again", parent.hidden, true)
   local otherAddonParent = {}
   parent = otherAddonParent
   testCM.DB.char.hideFocusFrame = false
   apply()
   check("does not undo another addon parent", parent, otherAddonParent)
+  testCM.DB.char.hideFocusFrame = true
+  apply()
+  check("re-enable preserves third-party ownership", parent, otherAddonParent)
   testCM.DB.char.hideFocusFrame = 0
   apply()
   check("numeric false leaves frame alone", parent, otherAddonParent)

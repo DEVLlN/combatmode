@@ -3,6 +3,7 @@
 return function(check, CM, env)
   local held, shift, control, alt = true, false, false, false
   local action, queried = "TOGGLEPINGLISTENER", nil
+  local first, second, pressed = "BUTTON3", nil, "MiddleButton"
   local windowOpen = false
   local function No()
     return false
@@ -25,7 +26,7 @@ return function(check, CM, env)
   }
   local testEnv = setmetatable({
     IsMouseButtonDown = function(button)
-      return button == "MiddleButton" and held
+      return button == pressed and held
     end,
     IsShiftKeyDown = function()
       return shift
@@ -35,6 +36,12 @@ return function(check, CM, env)
     end,
     IsAltKeyDown = function()
       return alt
+    end,
+    GetBindingKey = function()
+      return first, second
+    end,
+    IsKeyDown = function(key)
+      return key == pressed and held
     end,
     GetBindingAction = function(key, overrides)
       queried = key
@@ -65,6 +72,12 @@ return function(check, CM, env)
   action = "Combat Mode - Radial Menu"
   check("unrelated binding stays unchanged", testCM.ShouldFreeLookBeOff(), false)
   action = "TOGGLEPINGLISTENER"
+  first, second, pressed = "BUTTON3", "BUTTON4", "Button4"
+  check("side button in second slot unlocks", testCM.ShouldFreeLookBeOff(), true)
+  first, second, pressed = "P", nil, "P"
+  check("keyboard binding unlocks", testCM.ShouldFreeLookBeOff(), true)
+  first, pressed = "ALT-CTRL-SHIFT-BUTTON3", "MiddleButton"
+  check("modified binding requires modifiers", testCM.ShouldFreeLookBeOff(), false)
   shift, control, alt = true, true, true
   check("modified ping unlocks", testCM.ShouldFreeLookBeOff(), true)
   check("modifier order", queried, "ALT-CTRL-SHIFT-BUTTON3")

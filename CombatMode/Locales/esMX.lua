@@ -432,15 +432,23 @@ L["Distance between the Ally HUD and the crosshair."] =
 
 -- Support Mode: keybind label, notices and options tab (SupportMode.lua, TabSupportMode.lua)
 L["Support Mode"] = "Modo de apoyo"
+L["Support Mode Self-Cast"] = "Modo de apoyo: autolanzamiento"
 L["support mode keybinding"] = "asignación del modo de apoyo"
+L["support mode self-cast keybinding"] = "asignación de autolanzamiento del modo de apoyo"
 L["SUPPORT MODE"] = "MODO DE APOYO"
 L["A support-focused mode that, when active, switches your main action bar to a dedicated support page and allows helpful spells to target the friendly unit under your crosshair."] =
   "Un modo centrado en el apoyo que, al activarse, cambia tu barra de acción principal a una página de apoyo dedicada y permite que los hechizos beneficiosos apunten a la unidad amistosa bajo tu mira."
 L["Support Mode Keybind"] = "Tecla del modo de apoyo"
+L["Self-Cast Keybind"] = "Tecla de autolanzamiento"
+L["Hold to cast your click-cast helpful spells on yourself. Your target and Target Lock don't change."] =
+  "Mantenla presionada para lanzarte a ti los hechizos beneficiosos de tus botones de clic. Tu objetivo y Fijar objetivo no cambian."
 L["Prioritize Crosshair Target"] = "Priorizar el objetivo de la mira"
 L["Cycle NPCs and Pets"] = "Alternar entre PNJ y mascotas"
-L["Cycle Lock normally moves only between nearby players in Support Mode. Turn this on to include nearby NPCs and pets too."] =
-  "Alternar fijación normalmente solo cambia entre jugadores cercanos en el modo de apoyo. Actívalo para incluir también PNJ y mascotas cercanos."
+L["Cycle Lock also includes nearby NPCs and pets. While off, friendly pet nameplates are hidden."] =
+  "Alternar fijación también incluye PNJ y mascotas cercanos. Mientras esté desactivado, las placas de nombre de mascotas amistosas se ocultan."
+L["Cycle in Group Order"] = "Alternar en orden de grupo"
+L["Cycle Lock follows your party or raid order instead of the nearest ally. The first press locks the first member (Next) or the last (Previous)."] =
+  "Alternar fijación sigue el orden de tu grupo o banda en lugar del aliado más cercano. La primera vez que la presionas, fija al primer miembro (Siguiente) o al último (Anterior)."
 L["Prioritizes the ally under your crosshair over other friendly targets (e.g. Ally Cycle). Disable to prioritize your selected target instead."] =
   "El aliado bajo tu mira recibe el hechizo aunque tengas seleccionado otro objetivo amistoso, como una selección del Ciclo de aliados. Desactívalo para lanzar primero sobre tu objetivo seleccionado."
 L["Tap to toggle Support Mode on or off."] = "Pulsa para activar o desactivar el Modo de apoyo."
@@ -833,7 +841,7 @@ L["Macro “%s” no longer fits with the current preline; edit it from Reticle 
   "La macro «%s» ya no cabe con la prelínea actual; edítala desde las macros de selección por retícula."
 L["Click to print URL to chat"] = "Haz clic para mostrar la URL en el chat"
 
--- Auto Unlock: optional cursor aiming for middle-mouse Ping.
-L["Unlock Cursor for Ping"] = "Liberar cursor para se?ales"
-L["When middle mouse is bound to Ping, hold it to aim with the cursor instead of the reticle. Release to resume Mouse Look. Off by default."] =
-  "Si el bot?n central est? asignado a Se?al, mantenlo presionado para apuntar con el cursor en lugar de la ret?cula. Su?ltalo para volver a la vista con rat?n. Desactivado por defecto."
+-- Auto Unlock: optional cursor aiming for native Ping.
+L["Unlock Cursor for Ping"] = "Liberar cursor para señales"
+L["Hold a Blizzard Ping binding to aim with the cursor. Release it to resume Mouse Look. Off by default."] =
+  "Mantén presionada una tecla de señal de Blizzard para apuntar con el cursor. Suéltala para volver a la vista con ratón. Desactivado por defecto."

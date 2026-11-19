@@ -434,15 +434,23 @@ L["Distance between the Ally HUD and the crosshair."] =
 
 -- Support Mode: keybind label, notices and options tab (SupportMode.lua, TabSupportMode.lua)
 L["Support Mode"] = "지원 모드"
+L["Support Mode Self-Cast"] = "지원 모드 자신에게 시전"
 L["support mode keybinding"] = "지원 모드 단축키"
+L["support mode self-cast keybinding"] = "지원 모드 자신에게 시전 단축키"
 L["SUPPORT MODE"] = "지원 모드"
 L["A support-focused mode that, when active, switches your main action bar to a dedicated support page and allows helpful spells to target the friendly unit under your crosshair."] =
   "활성화하면 주 행동 단축바를 전용 지원 페이지로 전환하고, 이로운 주문이 조준점 아래의 우호적 대상을 지정할 수 있게 하는 지원 중심 모드입니다."
 L["Support Mode Keybind"] = "지원 모드 단축키"
+L["Self-Cast Keybind"] = "자신에게 시전 단축키"
+L["Hold to cast your click-cast helpful spells on yourself. Your target and Target Lock don't change."] =
+  "누르고 있으면 클릭 시전 버튼의 이로운 주문을 자신에게 시전합니다. 대상과 대상 고정은 바뀌지 않습니다."
 L["Prioritize Crosshair Target"] = "조준점 대상 우선"
 L["Cycle NPCs and Pets"] = "NPC 및 소환수 순환"
-L["Cycle Lock normally moves only between nearby players in Support Mode. Turn this on to include nearby NPCs and pets too."] =
-  "지원 모드에서 고정 순환은 기본적으로 주변 플레이어 사이에서만 이동합니다. 주변 NPC와 소환수도 포함하려면 이 옵션을 켜세요."
+L["Cycle Lock also includes nearby NPCs and pets. While off, friendly pet nameplates are hidden."] =
+  "고정 순환에 주변 NPC와 소환수도 포함됩니다. 꺼져 있는 동안에는 우호적인 소환수의 이름표가 숨겨집니다."
+L["Cycle in Group Order"] = "파티 순서대로 순환"
+L["Cycle Lock follows your party or raid order instead of the nearest ally. The first press locks the first member (Next) or the last (Previous)."] =
+  "고정 순환이 가장 가까운 아군 대신 파티나 공격대의 순서를 따릅니다. 처음 누르면 다음은 첫 번째 대원을, 이전은 마지막 대원을 고정합니다."
 L["Prioritizes the ally under your crosshair over other friendly targets (e.g. Ally Cycle). Disable to prioritize your selected target instead."] =
   "다른 우호적 대상(아군 순환으로 고른 대상 등)을 선택해 두었더라도 조준점 아래의 아군에게 주문이 시전됩니다. 끄면 선택한 대상에게 먼저 시전합니다."
 L["Tap to toggle Support Mode on or off."] = "눌러서 지원 모드를 켜거나 끕니다."
@@ -834,7 +842,7 @@ L["Macro “%s” no longer fits with the current preline; edit it from Reticle 
   "매크로 「%s」이(가) 현재 사전 줄과 함께 들어가지 않습니다. 조준선 대상 지정 매크로에서 편집하세요."
 L["Click to print URL to chat"] = "클릭하여 URL을 대화창에 출력"
 
--- Auto Unlock: optional cursor aiming for middle-mouse Ping.
-L["Unlock Cursor for Ping"] = "? ?? ? ?? ?? ??"
-L["When middle mouse is bound to Ping, hold it to aim with the cursor instead of the reticle. Release to resume Mouse Look. Off by default."] =
-  "??? ??? ??? ?? ???? ??? ?? ?? ??? ?? ??? ?????. ??? ??? ???? ?????. ????? ?? ????."
+-- Auto Unlock: optional cursor aiming for native Ping.
+L["Unlock Cursor for Ping"] = "핑 사용 시 커서 잠금 해제"
+L["Hold a Blizzard Ping binding to aim with the cursor. Release it to resume Mouse Look. Off by default."] =
+  "블리자드 핑 키를 누르고 있으면 커서로 조준합니다. 놓으면 마우스 시점 제어로 돌아갑니다. 기본값은 꺼짐입니다."

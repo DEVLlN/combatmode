@@ -47,7 +47,7 @@ UI.Options.AddTab({
     })
     ctx:Toggle({
       label = L["Unlock Cursor for Ping"],
-      desc = L["When middle mouse is bound to Ping, hold it to aim with the cursor instead of the reticle. Release to resume Mouse Look. Off by default."],
+      desc = L["Hold a Blizzard Ping binding to aim with the cursor. Release it to resume Mouse Look. Off by default."],
       get = function()
         return CM.DbBool(CM.DB.global.unlockCursorForPing, false)
       end,

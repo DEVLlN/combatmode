@@ -1105,14 +1105,14 @@ UI.Options.AddTab({
     for index, command in ipairs(CM.PingMenuBindingCommands) do
       ctx:Keybind({
         label = index == 1 and L["Separate Ping Wheel"] or L["Separate Ping Wheel (Secondary)"],
+        allowPrimaryMouse = true,
         desc = L["Tap to ping under the crosshair. Hold and release toward a slice to choose a ping."],
         get = function()
-          return GetBindingKey(command)
+          return CM.GetSeparatePingBinding(command)
         end,
         set = function(binding)
           CM.TryApplyBindingChange(L["Separate Ping Wheel"], function()
-            CM.AssignNamedKeybind(command, binding)
-            CM.RefreshPingMenu()
+            CM.SetSeparatePingBinding(command, binding)
           end)
         end,
       })

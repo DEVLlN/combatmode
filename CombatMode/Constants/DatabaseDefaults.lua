@@ -194,6 +194,7 @@ return false
     radialMenu = {
       wheels = {},
     },
+    separatePingPrimaryMouse = {},
     -- Party Wheel: helpful spells (spell-ID CSV) that open the group wheel while held
     partyWheelSpells = "",
     -- mouse look camera

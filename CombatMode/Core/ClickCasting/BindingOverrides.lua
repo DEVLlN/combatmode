@@ -596,11 +596,17 @@ for value, text in pairs(CM.Constants.BlizzardActionMacros) do
 end
 
 function CM.SetNewBinding(buttonSettings)
+  local key = buttonSettings.key
+  local pingAction = CM.GetPingMouseLookAction and CM.GetPingMouseLookAction(key)
+  if pingAction then
+    SetMouselookOverrideBinding(key, pingAction)
+    return
+  end
   if not buttonSettings.enabled then
     return
   end
 
-  local key, value = buttonSettings.key, buttonSettings.value
+  local value = buttonSettings.value
   local frame = ClickCastFramesByKey[key]
   if frame and not InCombatLockdown() then
     local ping = CM.Constants.ClickCastPingMacros[value] ~= nil
@@ -657,7 +663,8 @@ function CM.OverrideDefaultButtons()
 end
 
 function CM.ResetBindingOverride(buttonSettings)
-  SetMouselookOverrideBinding(buttonSettings.key, nil)
+  local key = buttonSettings.key
+  SetMouselookOverrideBinding(key, CM.GetPingMouseLookAction and CM.GetPingMouseLookAction(key))
   CM.DebugPrint(buttonSettings.key .. "'s override binding is now cleared")
 end
 

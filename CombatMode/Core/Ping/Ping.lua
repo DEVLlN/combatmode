@@ -3,6 +3,7 @@
 ---------------------------------------------------------------------------------------
 -- What it does: Opens the Ping preset from an optional dedicated binding and pings on a centre release.
 -- Architecture: Secure click buttons share the radial renderer and Click Casting ping action.
+-- Primary mouse buttons use Mouse Look overrides so ordinary camera clicks are preserved.
 -- Does not: Assign bindings automatically.
 -- Related: Core/RadialMenu/View.lua, Core/FreeLook/FreeLookController.lua, Core/ClickCasting/BindingOverrides.lua.
 local _, CM = ...
@@ -61,6 +62,41 @@ key:SetAttribute("type", "click")
 key:SetAttribute("useOnKeyDown", true)
 key:Hide()
 local owner = _G.CreateFrame("Frame")
+local mouseLookActions = {}
+local function IsPrimaryMouse(binding)
+  local button = binding and binding:match("([^%-]+)$")
+  return button == "BUTTON1" or button == "BUTTON2"
+end
+
+function CM.GetPingMouseLookAction(binding)
+  return mouseLookActions[binding]
+end
+
+function CM.GetSeparatePingBinding(command)
+  local primary = CM.DB.char.separatePingPrimaryMouse[command]
+  if primary then
+    return primary
+  end
+  return _G.GetBindingKey(command)
+end
+
+function CM.SetSeparatePingBinding(command, binding)
+  local primaryMouse = CM.DB.char.separatePingPrimaryMouse
+  if IsPrimaryMouse(binding) then
+    for _, other in ipairs(COMMANDS) do
+      if primaryMouse[other] == binding then
+        primaryMouse[other] = nil
+      end
+    end
+    primaryMouse[command] = binding
+    CM.AssignNamedKeybind(command, "")
+  else
+    primaryMouse[command] = nil
+    CM.AssignNamedKeybind(command, binding)
+  end
+  CM.RefreshPingMenu()
+end
+
 local HIDE = [[ owner:Hide(); owner:ClearBindings() ]]
 local PRE = [[
   local owner = owner or self
@@ -69,18 +105,26 @@ local PRE = [[
     return false
   end
   if down then
+    if owner:IsShown() then return false end
     local radial = owner:GetFrameRef("radial")
     local party = owner:GetFrameRef("party")
     if (radial and radial:IsShown()) or (party and party:IsShown()) then return false end
+    local binding = owner:GetAttribute("binding-" .. button)
+    if not binding then return false end
+    owner:SetAttribute("pressed", button)
     self:SetAttribute("useOnKeyDown", true)
     owner:ClearAllPoints()
     owner:SetPoint("CENTER", "$parent", "CENTER", 0, owner:GetAttribute("yoff") or 0)
-    owner:Show()
     owner:SetBindingClick(true, "ESCAPE", "CombatModePingMenuKey", "ESC")
     owner:SetBindingClick(true, "BUTTON2", "CombatModePingMenuKey", "ESC")
+    -- Keep receiving the initiating button after the wheel releases Mouse Look.
+    local mouse = owner:GetAttribute("mouse-" .. button)
+    if mouse then owner:SetBindingClick(true, mouse, "CombatModePingMenuKey", button) end
+    owner:SetBindingClick(true, binding, "CombatModePingMenuKey", button)
+    owner:Show()
     return false
   end
-  if not owner:IsShown() then return false end
+  if not owner:IsShown() or owner:GetAttribute("pressed") ~= button then return false end
   local slot = 0
   local mx,my = owner:GetMousePosition()
   if mx then
@@ -185,10 +229,30 @@ function CM.RefreshPingMenu()
     wheel:SetAttribute("y" .. i, y)
   end
   _G.ClearOverrideBindings(owner)
+  local previousMouseLookActions = mouseLookActions
+  mouseLookActions = {}
+  local routeIndex = 0
   for _, command in ipairs(COMMANDS) do
-    for _, binding in ipairs({ _G.GetBindingKey(command) }) do
-      _G.SetOverrideBindingClick(owner, true, binding, key:GetName(), "LeftButton")
+    for _, binding in ipairs({ CM.GetSeparatePingBinding(command) }) do
+      routeIndex = routeIndex + 1
+      local route = "ping" .. routeIndex
+      wheel:SetAttribute("binding-" .. route, binding)
+      local mouse = binding:match("(BUTTON%d+)$")
+      wheel:SetAttribute("mouse-" .. route, mouse ~= binding and mouse or nil)
+      if IsPrimaryMouse(binding) then
+        mouseLookActions[binding] = "CLICK " .. key:GetName() .. ":" .. route
+      else
+        _G.SetOverrideBindingClick(owner, true, binding, key:GetName(), route)
+      end
     end
+  end
+  if next(previousMouseLookActions) or next(mouseLookActions) then
+    for binding in pairs(previousMouseLookActions) do
+      if not mouseLookActions[binding] then
+        _G.SetMouselookOverrideBinding(binding, nil)
+      end
+    end
+    CM.OverrideDefaultButtons()
   end
 end
 -- Binding changes from Blizzard's keybinding UI also need fresh overrides.

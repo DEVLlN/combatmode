@@ -20,7 +20,8 @@ return function(Check, CM, env)
   )
   local oldDB, oldRefresh = CM.DB, CM.RadialRefresh
   CM.RadialRefresh = nil
-  CM.DB = { char = { radialMenu = { presetsSeeded = true, wheels = {} } } }
+  CM.DB =
+    { char = { radialMenu = { presetsSeeded = true, wheels = {} }, separatePingPrimaryMouse = {} } }
   local index = CM.RadialCreateWheel(nil, "ping")
   local wheel = CM.RadialGetWheels()[index]
   Check("Ping preset is locked", wheel.locked, true)
@@ -33,6 +34,52 @@ return function(Check, CM, env)
   Check("cannot reorder Ping slots", wheel.slots[1].id, "pingattack")
   CM.RadialDeleteWheel(index)
   Check("can delete the Ping preset", #CM.RadialGetWheels(), 0)
+  local oldAssign, oldOverride = CM.AssignNamedKeybind, CM.OverrideDefaultButtons
+  local oldGetKey, oldSetClick = env.GetBindingKey, env.SetOverrideBindingClick
+  local oldSetMouse = env.SetMouselookOverrideBinding
+  local oldInCombat = env.InCombatLockdown
+  local primary, secondary = unpack(CM.PingMenuBindingCommands)
+  local native, direct, cleared = {}, {}, {}
+  env.InCombatLockdown = function()
+    return false
+  end
+  env.GetBindingKey = function(command)
+    if command == secondary then
+      return "CTRL-BUTTON5", "PAD1"
+    end
+    return native[command]
+  end
+  env.SetOverrideBindingClick = function(_, _, binding, _, route)
+    direct[binding] = route
+  end
+  env.SetMouselookOverrideBinding = function(binding, action)
+    cleared[binding] = action == nil
+  end
+  CM.OverrideDefaultButtons = function() end
+  CM.AssignNamedKeybind = function(command, binding)
+    native[command] = binding ~= "" and binding or nil
+  end
+  CM.SetSeparatePingBinding(primary, "BUTTON2")
+  Check(
+    "right-click binding is visible in the panel",
+    CM.GetSeparatePingBinding(primary),
+    "BUTTON2"
+  )
+  Check(
+    "right-click uses the Mouse Look binding",
+    CM.GetPingMouseLookAction("BUTTON2") ~= nil,
+    true
+  )
+  Check("right-click keeps its ordinary WoW binding", native[primary], nil)
+  Check("modifier plus side button gets a route", direct["CTRL-BUTTON5"], "ping2")
+  Check("second native key works for gamepad", direct.PAD1, "ping3")
+  CM.SetSeparatePingBinding(primary, "SHIFT-Q")
+  Check("keyboard chord gets a route", direct["SHIFT-Q"], "ping1")
+  Check("rebinding clears the old Mouse Look override", cleared.BUTTON2, true)
+  Check("rebinding restores the right-click slot", CM.GetPingMouseLookAction("BUTTON2"), nil)
+  CM.AssignNamedKeybind, CM.OverrideDefaultButtons = oldAssign, oldOverride
+  env.GetBindingKey, env.SetOverrideBindingClick = oldGetKey, oldSetClick
+  env.SetMouselookOverrideBinding, env.InCombatLockdown = oldSetMouse, oldInCombat
   local oldTimer = env.C_Timer
   local oldLock, oldUnlock = CM.LockFreeLook, CM.UnlockFreeLook
   local oldCenter, oldReconcile = CM.SetCursorFreelookCentering, CM.ReconcileFreeLook

@@ -852,3 +852,8 @@ L["Separate Ping Wheel"] = "별도 핑 메뉴"
 L["Separate Ping Wheel (Secondary)"] = "별도 핑 메뉴 (보조)"
 L["Tap to ping under the crosshair. Hold and release toward a slice to choose a ping."] =
   "짧게 누르면 조준점 아래에 신호를 보냅니다. 길게 누른 뒤 원하는 칸을 향해 놓으면 신호를 선택합니다."
+
+-- Auto Unlock: optional cursor aiming for native Ping.
+L["Unlock Cursor for Ping"] = "핑 사용 시 커서 잠금 해제"
+L["Hold a Blizzard Ping binding to aim with the cursor. Release it to resume Mouse Look. Off by default."] =
+  "블리자드 핑 키를 누르고 있으면 커서로 조준합니다. 놓으면 마우스 시점 제어로 돌아갑니다. 기본값은 꺼짐입니다."

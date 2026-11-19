@@ -848,3 +848,8 @@ L["Separate Ping Wheel"] = "Ruota Ping separata"
 L["Separate Ping Wheel (Secondary)"] = "Ruota Ping separata (secondaria)"
 L["Tap to ping under the crosshair. Hold and release toward a slice to choose a ping."] =
   "Premi per segnalare sotto il mirino. Tieni premuto e rilascia verso un settore per scegliere un segnale."
+
+-- Auto Unlock: optional cursor aiming for native Ping.
+L["Unlock Cursor for Ping"] = "Libera il cursore per i ping"
+L["Hold a Blizzard Ping binding to aim with the cursor. Release it to resume Mouse Look. Off by default."] =
+  "Tieni premuto un tasto Ping di Blizzard per mirare con il cursore. Rilascialo per riprendere la visuale con il mouse. Disattivato per impostazione predefinita."

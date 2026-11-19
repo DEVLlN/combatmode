@@ -895,3 +895,8 @@ L["Separate Ping Wheel (Secondary)"] =
   "Отдельное колесо сигналов (второе)"
 L["Tap to ping under the crosshair. Hold and release toward a slice to choose a ping."] =
   "Нажмите, чтобы подать сигнал под прицелом. Удерживайте кнопку и отпустите её над сектором, чтобы выбрать сигнал."
+
+-- Auto Unlock: optional cursor aiming for native Ping.
+L["Unlock Cursor for Ping"] = "Освобождать курсор для сигналов"
+L["Hold a Blizzard Ping binding to aim with the cursor. Release it to resume Mouse Look. Off by default."] =
+  "Удерживайте клавишу сигнала Blizzard для прицеливания курсором. Отпустите её для возврата к управлению камерой мышью. По умолчанию выключено."

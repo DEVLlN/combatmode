@@ -849,3 +849,8 @@ L["Separate Ping Wheel"] = "Separates Ping-Rad"
 L["Separate Ping Wheel (Secondary)"] = "Separates Ping-Rad (zweite Taste)"
 L["Tap to ping under the crosshair. Hold and release toward a slice to choose a ping."] =
   "Tippe, um unter dem Fadenkreuz zu pingen. Halte die Taste und lass sie über einem Segment los, um einen Ping auszuwählen."
+
+-- Auto Unlock: optional cursor aiming for native Ping.
+L["Unlock Cursor for Ping"] = "Cursor für Ping freigeben"
+L["Hold a Blizzard Ping binding to aim with the cursor. Release it to resume Mouse Look. Off by default."] =
+  "Halte eine Blizzard-Ping-Taste gedrückt, um mit dem Cursor zu zielen. Loslassen setzt die Maussteuerung fort. Standardmäßig aus."

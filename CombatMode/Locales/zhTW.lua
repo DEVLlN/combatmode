@@ -425,15 +425,15 @@ L["A support-focused mode that, when active, switches your main action bar to a 
   "一種以支援為核心的模式：啟用後會將主動作列切換到專用的支援頁，並允許增益法術以準星下的友方單位為目標。"
 L["Support Mode Keybind"] = "輔助模式按鍵"
 L["Self-Cast Keybind"] = "自我施法按鍵"
-L["Hold while in Support Mode to cast the helpful spells on your click-cast buttons on yourself. Your target and Target Lock stay as they are."] =
-  "在輔助模式中按住此鍵，可將點擊施法按鍵上的有益法術施放給自己。你的目標和目標鎖定保持不變。"
+L["Hold to cast your click-cast helpful spells on yourself. Your target and Target Lock don't change."] =
+  "按住此鍵，可將點擊施法按鍵上的有益法術施放給自己。你的目標和目標鎖定不會改變。"
 L["Prioritize Crosshair Target"] = "優先準星目標"
 L["Cycle NPCs and Pets"] = "輪替 NPC 和寵物"
-L["In Support Mode, Cycle Lock also moves to nearby NPCs and pets. While off, friendly pet nameplates are hidden, also outside Support Mode."] =
-  "在輔助模式下,循環鎖定也會切換到附近的 NPC 和寵物。關閉時,友方寵物的名條會被隱藏,在輔助模式之外也是如此。"
+L["Cycle Lock also includes nearby NPCs and pets. While off, friendly pet nameplates are hidden."] =
+  "循環鎖定也會包含附近的 NPC 和寵物。關閉時，友方寵物的名條會被隱藏。"
 L["Cycle in Group Order"] = "依隊伍順序輪替"
-L["In Support Mode, Cycle Lock moves through your party or raid in group order instead of to the nearest ally. With nobody locked, Next locks the first member and Previous the last."] =
-  "在輔助模式下,循環鎖定會依序在小隊或團隊成員之間切換,而不是切換到最近的盟友。沒有鎖定任何人時,下一個會鎖定第一名成員,上一個會鎖定最後一名成員。"
+L["Cycle Lock follows your party or raid order instead of the nearest ally. The first press locks the first member (Next) or the last (Previous)."] =
+  "循環鎖定依小隊或團隊順序切換，而不是最近的盟友。第一次按下時，下一個會鎖定第一名成員，上一個會鎖定最後一名成員。"
 L["Prioritizes the ally under your crosshair over other friendly targets (e.g. Ally Cycle). Disable to prioritize your selected target instead."] =
   "即使已選取其他友方目標（例如透過友方循環選取），準星下的盟友也會優先獲得法術。關閉後將優先施放給已選取的目標。"
 L["Tap to toggle Support Mode on or off."] = "點按以開啟或關閉輔助模式。"
@@ -819,18 +819,13 @@ L["Macro “%s” no longer fits with the current preline; edit it from Reticle 
   "巨集「%s」與目前前置行合併後已超出長度限制；請在準星瞄準巨集中編輯。"
 L["Click to print URL to chat"] = "點擊將 URL 輸出到聊天"
 
--- Ping menu (English fallback).
-L["Assist"] = "Assist"
-L["Attack"] = "Attack"
-L["On My Way"] = "On My Way"
-L["Open the dedicated Ping menu. Both keybinds have the same tap and hold behavior."] =
-  "Open the dedicated Ping menu. Both keybinds have the same tap and hold behavior."
-L["PING"] = "PING"
-L["Ping"] = "Ping"
-L["Ping menu"] = "Ping menu"
-L["Ping menu keybinding"] = "Ping menu keybinding"
-L["Primary Keybind"] = "Primary Keybind"
-L["Secondary Keybind"] = "Secondary Keybind"
-L["Tap to ping the unit or ground under your reticle. Hold, choose Attack, Warning, On My Way or Assist, then release. Escape or right-click cancels the menu."] =
-  "Tap to ping the unit or ground under your reticle. Hold, choose Attack, Warning, On My Way or Assist, then release. Escape or right-click cancels the menu."
-L["Warning"] = "Warning"
+-- Ping preset and optional direct bindings.
+L["Assist"] = "協助"
+L["Attack"] = "攻擊"
+L["On My Way"] = "正在路上"
+L["Warning"] = "警告"
+L["Ping"] = "信號"
+L["Separate Ping Wheel"] = "獨立信號轉盤"
+L["Separate Ping Wheel (Secondary)"] = "獨立信號轉盤（第二組）"
+L["Hold this binding to open the Ping wheel directly. Release toward a slice to ping."] =
+  "按住此鍵直接打開信號轉盤。在所選區塊放開即可送出信號。"

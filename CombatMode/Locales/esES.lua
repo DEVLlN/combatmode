@@ -440,15 +440,15 @@ L["A support-focused mode that, when active, switches your main action bar to a 
   "Un modo centrado en el apoyo que, al activarse, cambia tu barra de acción principal a una página de apoyo dedicada y permite que los hechizos beneficiosos apunten a la unidad amistosa bajo tu mira."
 L["Support Mode Keybind"] = "Tecla del modo de apoyo"
 L["Self-Cast Keybind"] = "Tecla de autolanzamiento"
-L["Hold while in Support Mode to cast the helpful spells on your click-cast buttons on yourself. Your target and Target Lock stay as they are."] =
-  "Mantenla pulsada en el Modo de apoyo para lanzarte a ti los hechizos beneficiosos de tus botones de clic. Tu objetivo y Fijar objetivo no cambian."
+L["Hold to cast your click-cast helpful spells on yourself. Your target and Target Lock don't change."] =
+  "Mantenla pulsada para lanzarte a ti los hechizos beneficiosos de tus botones de clic. Tu objetivo y Fijar objetivo no cambian."
 L["Prioritize Crosshair Target"] = "Priorizar el objetivo de la mira"
 L["Cycle NPCs and Pets"] = "Alternar entre PNJ y mascotas"
-L["In Support Mode, Cycle Lock also moves to nearby NPCs and pets. While off, friendly pet nameplates are hidden, also outside Support Mode."] =
-  "En el modo de apoyo, Alternar fijación también pasa a PNJ y mascotas cercanos. Mientras esté desactivado, las placas de nombre de mascotas amistosas se ocultan, también fuera del modo de apoyo."
+L["Cycle Lock also includes nearby NPCs and pets. While off, friendly pet nameplates are hidden."] =
+  "Alternar fijación también incluye PNJ y mascotas cercanos. Mientras esté desactivado, las placas de nombre de mascotas amistosas se ocultan."
 L["Cycle in Group Order"] = "Alternar en orden de grupo"
-L["In Support Mode, Cycle Lock moves through your party or raid in group order instead of to the nearest ally. With nobody locked, Next locks the first member and Previous the last."] =
-  "En el modo de apoyo, Alternar fijación recorre tu grupo o banda en orden, en lugar de pasar al aliado más cercano. Si no hay nadie fijado, Siguiente fija al primer miembro y Anterior al último."
+L["Cycle Lock follows your party or raid order instead of the nearest ally. The first press locks the first member (Next) or the last (Previous)."] =
+  "Alternar fijación sigue el orden de tu grupo o banda en lugar del aliado más cercano. La primera pulsación fija al primer miembro (Siguiente) o al último (Anterior)."
 L["Prioritizes the ally under your crosshair over other friendly targets (e.g. Ally Cycle). Disable to prioritize your selected target instead."] =
   "El aliado bajo tu mira recibe el hechizo aunque tengas seleccionado otro objetivo amistoso, como una selección del Ciclo de aliados. Desactívalo para lanzar primero sobre tu objetivo seleccionado."
 L["Tap to toggle Support Mode on or off."] = "Pulsa para activar o desactivar el Modo de apoyo."
@@ -841,18 +841,13 @@ L["Macro “%s” no longer fits with the current preline; edit it from Reticle 
   "La macro «%s» ya no cabe con la prelínea actual; edítala desde las macros de selección por retícula."
 L["Click to print URL to chat"] = "Haz clic para mostrar la URL en el chat"
 
--- Ping menu (English fallback).
-L["Assist"] = "Assist"
-L["Attack"] = "Attack"
-L["On My Way"] = "On My Way"
-L["Open the dedicated Ping menu. Both keybinds have the same tap and hold behavior."] =
-  "Open the dedicated Ping menu. Both keybinds have the same tap and hold behavior."
-L["PING"] = "PING"
-L["Ping"] = "Ping"
-L["Ping menu"] = "Ping menu"
-L["Ping menu keybinding"] = "Ping menu keybinding"
-L["Primary Keybind"] = "Primary Keybind"
-L["Secondary Keybind"] = "Secondary Keybind"
-L["Tap to ping the unit or ground under your reticle. Hold, choose Attack, Warning, On My Way or Assist, then release. Escape or right-click cancels the menu."] =
-  "Tap to ping the unit or ground under your reticle. Hold, choose Attack, Warning, On My Way or Assist, then release. Escape or right-click cancels the menu."
-L["Warning"] = "Warning"
+-- Ping preset and optional direct bindings.
+L["Assist"] = "Ayuda"
+L["Attack"] = "Atacar"
+L["On My Way"] = "En camino"
+L["Warning"] = "Advertencia"
+L["Ping"] = "Señal"
+L["Separate Ping Wheel"] = "Rueda de señales independiente"
+L["Separate Ping Wheel (Secondary)"] = "Rueda de señales independiente (secundaria)"
+L["Hold this binding to open the Ping wheel directly. Release toward a slice to ping."] =
+  "Mantén pulsada la tecla para abrir la rueda de señales. Suéltala sobre un segmento para marcar."

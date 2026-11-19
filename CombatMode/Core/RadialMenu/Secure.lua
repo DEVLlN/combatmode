@@ -73,6 +73,7 @@ local APPLY = [[
       t = owner:GetAttribute("rt" .. cur .. "_" .. i)
       v = owner:GetAttribute("rv" .. cur .. "_" .. i)
     end
+    b:SetAttribute("locationping", i <= n and owner:GetAttribute("rp" .. cur .. "_" .. i) or nil)
     b:SetAttribute("spell", t == "spell" and v or nil)
     b:SetAttribute("item", t == "item" and v or nil)
     b:SetAttribute("macro", t == "macro" and v or nil)
@@ -225,6 +226,16 @@ if SecureHandlerWrapScript then
     slice:SetAttribute("checkfocuscast", false)
     slice:SetAttribute("checkmouseovercast", false)
     slice:EnableMouse(false)
+    slice:HookScript("PreClick", function(button, _, down)
+      if not down and button:GetAttribute("locationping") then
+        CM.PrepareLocationPingAtReticle()
+      end
+    end)
+    slice:HookScript("PostClick", function(button, _, down)
+      if not down and button:GetAttribute("locationping") then
+        CM.FinishLocationPing()
+      end
+    end)
     -- Pre: leave the click alone and hand "true" to the post body, which closes the wheel.
     SecureHandlerWrapScript(slice, "OnClick", Wheel, "return nil, true", HIDE)
     SecureHandlerSetFrameRef(Wheel, "slice" .. i, slice)
@@ -354,6 +365,9 @@ local function StoreImpl()
       end
       Wheel:SetAttribute("rt" .. k .. "_" .. i, kind and (isText and "macrotext" or kind) or nil)
       Wheel:SetAttribute("rv" .. k .. "_" .. i, kind and value or nil)
+      local entry = list and list.entries[i]
+      local action = entry and entry.kind == "action" and CM.RadialActions.byId[entry.id]
+      Wheel:SetAttribute("rp" .. k .. "_" .. i, action and action.locationPing or nil)
     end
   end
   Wheel:SetAttribute("rtotal", #lists)

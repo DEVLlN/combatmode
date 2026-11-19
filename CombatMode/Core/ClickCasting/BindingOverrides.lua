@@ -438,7 +438,14 @@ function CM.ApplyGroundCastKeyOverrides()
       -- Never override mouse-button bindings here; click-cast already owns mouse buttons.
       if key and not IsMouseBindingKey(key) then
         local realFrame = CM.GetEffectiveBarButtonFrameName(bindingName)
-        if realFrame and IsSlotMacro(bindingName) then
+        local mixedWithMacro = realFrame
+          and not IsSlotMacro(bindingName)
+          and CM.ActionButtonHasMacroOnOtherBarState(bindingName)
+        if mixedWithMacro then
+          -- A macro sits on another stance / stealth / form bar for this key: the proxy's
+          -- /click would do nothing there, and a swap in combat can't rebuild it. Native bind.
+          SetOverrideBinding(GroundCastKeyOverrideOwner, GROUND_CAST_KEY_PRIORITY, key, bindingName)
+        elseif realFrame and IsSlotMacro(bindingName) then
           -- Slot is a macro: do not inject (nested macro /click is a no-op).
           -- Normal ActionButton/MultiBar: native bind name (same path as page-1 macros).
           -- Bonus/Override/TempShapeshift: click the live frame so Classic-style overlay
@@ -597,7 +604,11 @@ function CM.SetNewBinding(buttonSettings)
       valueToUse = value
     else
       local realFrame = CM.GetEffectiveBarButtonFrameName(value)
-      if realFrame and IsSlotMacro(value) then
+      if realFrame and not IsSlotMacro(value) and CM.ActionButtonHasMacroOnOtherBarState(value) then
+        -- Macro on another stance / stealth / form bar for this slot: native binding follows
+        -- every swap (the proxy's /click is a no-op on a macro and can't be rebuilt in combat).
+        valueToUse = value
+      elseif realFrame and IsSlotMacro(value) then
         -- Slot is a macro: bind key to click the real action bar button so the macro runs as written.
         valueToUse = "CLICK " .. realFrame .. ":" .. ClickCastMouseButton(key)
       else

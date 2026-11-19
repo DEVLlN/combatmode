@@ -465,15 +465,15 @@ L["A support-focused mode that, when active, switches your main action bar to a 
   "Режим поддержки: при включении переключает основную панель команд на отдельную страницу поддержки и позволяет полезным заклинаниям выбирать целью дружественного юнита под прицелом."
 L["Support Mode Keybind"] = "Клавиша режима поддержки"
 L["Self-Cast Keybind"] = "Клавиша применения к себе"
-L["Hold while in Support Mode to cast the helpful spells on your click-cast buttons on yourself. Your target and Target Lock stay as they are."] =
-  "Удерживайте в режиме поддержки, чтобы применять полезные заклинания кнопок щелчка к себе. Ваша цель и захват цели не меняются."
+L["Hold to cast your click-cast helpful spells on yourself. Your target and Target Lock don't change."] =
+  "Удерживайте, чтобы применять полезные заклинания кнопок щелчка к себе. Ваша цель и захват цели не меняются."
 L["Prioritize Crosshair Target"] = "Приоритет цели под прицелом"
 L["Cycle NPCs and Pets"] = "Перебор NPC и питомцев"
-L["In Support Mode, Cycle Lock also moves to nearby NPCs and pets. While off, friendly pet nameplates are hidden, also outside Support Mode."] =
-  "В режиме поддержки смена захвата также переключается на ближайших NPC и питомцев. Пока опция выключена, индикаторы здоровья дружественных питомцев скрыты, в том числе вне режима поддержки."
+L["Cycle Lock also includes nearby NPCs and pets. While off, friendly pet nameplates are hidden."] =
+  "Смена захвата также включает ближайших NPC и питомцев. Пока опция выключена, индикаторы здоровья дружественных питомцев скрыты."
 L["Cycle in Group Order"] = "Перебор в порядке группы"
-L["In Support Mode, Cycle Lock moves through your party or raid in group order instead of to the nearest ally. With nobody locked, Next locks the first member and Previous the last."] =
-  "В режиме поддержки смена захвата перебирает участников группы или рейда по порядку, а не переключается на ближайшего союзника. Если никто не захвачен, «следующая» захватывает первого участника, а «предыдущая» — последнего."
+L["Cycle Lock follows your party or raid order instead of the nearest ally. The first press locks the first member (Next) or the last (Previous)."] =
+  "Смена захвата идёт по порядку вашей группы или рейда, а не по ближайшему союзнику. Первое нажатие захватывает первого участника («следующая») или последнего («предыдущая»)."
 L["Prioritizes the ally under your crosshair over other friendly targets (e.g. Ally Cycle). Disable to prioritize your selected target instead."] =
   "Союзник под прицелом получает заклинание, даже если выбрана другая дружественная цель, например через смену союзника. Отключите, чтобы сначала применять заклинание на выбранную цель."
 L["Tap to toggle Support Mode on or off."] =
@@ -884,18 +884,14 @@ L["Macro “%s” no longer fits with the current preline; edit it from Reticle 
   "Макрос «%s» больше не помещается с текущей предстрокой; измените его в разделе макросов наведения по прицелу."
 L["Click to print URL to chat"] = "Нажмите, чтобы вывести ссылку в чат"
 
--- Ping menu (English fallback).
-L["Assist"] = "Assist"
-L["Attack"] = "Attack"
-L["On My Way"] = "On My Way"
-L["Open the dedicated Ping menu. Both keybinds have the same tap and hold behavior."] =
-  "Open the dedicated Ping menu. Both keybinds have the same tap and hold behavior."
-L["PING"] = "PING"
-L["Ping"] = "Ping"
-L["Ping menu"] = "Ping menu"
-L["Ping menu keybinding"] = "Ping menu keybinding"
-L["Primary Keybind"] = "Primary Keybind"
-L["Secondary Keybind"] = "Secondary Keybind"
-L["Tap to ping the unit or ground under your reticle. Hold, choose Attack, Warning, On My Way or Assist, then release. Escape or right-click cancels the menu."] =
-  "Tap to ping the unit or ground under your reticle. Hold, choose Attack, Warning, On My Way or Assist, then release. Escape or right-click cancels the menu."
-L["Warning"] = "Warning"
+-- Ping preset and optional direct bindings.
+L["Assist"] = "Помощь"
+L["Attack"] = "Атака"
+L["On My Way"] = "В пути"
+L["Warning"] = "Предупреждение"
+L["Ping"] = "Сигнал"
+L["Separate Ping Wheel"] = "Отдельное колесо сигналов"
+L["Separate Ping Wheel (Secondary)"] =
+  "Отдельное колесо сигналов (второе)"
+L["Hold this binding to open the Ping wheel directly. Release toward a slice to ping."] =
+  "Удерживайте клавишу, чтобы открыть колесо сигналов. Отпустите над сектором, чтобы подать сигнал."

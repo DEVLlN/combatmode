@@ -91,7 +91,6 @@
     <Script file="UI\Options\Tabs\TabReticleTargeting.lua"/>
     <Script file="UI\Options\Tabs\TabClickCasting.lua"/>
     <Script file="UI\Options\Tabs\TabRadialMenu.lua"/>
-    <Script file="UI\Options\Tabs\TabPing.lua"/>
     <Script file="UI\Options\Tabs\TabAllyCycle.lua"/>
     <Script file="UI\Options\Tabs\TabSupportMode.lua"/>
     <Script file="UI\Options\Tabs\TabAutoCursorUnlock.lua"/>

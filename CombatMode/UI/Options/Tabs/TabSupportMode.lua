@@ -98,7 +98,7 @@ UI.Options.AddTab({
     })
     ctx:Keybind({
       label = L["Self-Cast Keybind"],
-      desc = L["Hold while in Support Mode to cast the helpful spells on your click-cast buttons on yourself. Your target and Target Lock stay as they are."],
+      desc = L["Hold to cast your click-cast helpful spells on yourself. Your target and Target Lock don't change."],
       get = function()
         return (GetBindingKey(SELF_BIND_NAME))
       end,
@@ -127,7 +127,7 @@ UI.Options.AddTab({
     })
     ctx:Toggle({
       label = L["Cycle NPCs and Pets"],
-      desc = L["In Support Mode, Cycle Lock also moves to nearby NPCs and pets. While off, friendly pet nameplates are hidden, also outside Support Mode."],
+      desc = L["Cycle Lock also includes nearby NPCs and pets. While off, friendly pet nameplates are hidden."],
       charSpecific = true,
       get = function()
         return CM.DbBool(CM.DB.char.supportModeCycleNPCs, false)
@@ -150,7 +150,7 @@ UI.Options.AddTab({
     })
     ctx:Toggle({
       label = L["Cycle in Group Order"],
-      desc = L["In Support Mode, Cycle Lock moves through your party or raid in group order instead of to the nearest ally. With nobody locked, Next locks the first member and Previous the last."],
+      desc = L["Cycle Lock follows your party or raid order instead of the nearest ally. The first press locks the first member (Next) or the last (Previous)."],
       charSpecific = true,
       get = function()
         return CM.DbBool(CM.DB.char.supportModeCycleGroupOrder, false)

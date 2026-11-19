@@ -1,42 +1,43 @@
 ---------------------------------------------------------------------------------------
 --  Core/Ping/Ping.lua — PING — dedicated Ping menu
--- Owns no radial pages; shares only their visual renderer and ping action definitions.
 ---------------------------------------------------------------------------------------
--- What it does: Provides dedicated Ping controls.
+-- What it does: Opens the Ping preset from an optional dedicated binding.
 -- Architecture: Secure click buttons share the radial renderer; settings use named bindings.
--- Does not: Change player bindings automatically.
+-- Does not: Change player bindings or send a ping from the centre of the wheel.
 -- Related: Core/RadialMenu/View.lua, Core/FreeLook/FreeLookController.lua.
 local _, CM = ...
 local _G = _G
 local L = CM.L
 local COMMANDS = { "Combat Mode - Ping Menu", "Combat Mode - Ping Menu Secondary" }
 CM.PingMenuBindingCommands = COMMANDS
-local entries = {
-  { kind = "action", id = "pingattack" },
-  { kind = "action", id = "pingwarning" },
-  { kind = "action", id = "pingonmyway" },
-  { kind = "action", id = "pingassist" },
-}
+local pingWheel = CM.RadialBuildPingWheel()
+local entries = pingWheel.slots
 local pingGeneration = 0
+local function FinishLocationPing(generation)
+  if generation ~= pingGeneration or not CM.locationPingActive then
+    return
+  end
+  CM.locationPingActive = false
+  CM.ReconcileFreeLook()
+end
+
 local function BeginLocationPing()
   if not CM.DB then
     return
   end
   pingGeneration = pingGeneration + 1
   CM.locationPingActive = true
+  local generation = pingGeneration
+  _G.C_Timer.After(0.1, function()
+    FinishLocationPing(generation)
+  end)
   CM.UnlockFreeLook()
   CM.SetCursorFreelookCentering(false)
 end
-local function EndLocationPing()
+function CM.FinishLocationPing()
   local generation = pingGeneration
   _G.C_Timer.After(0, function()
-    if generation ~= pingGeneration then
-      return
-    end
-    CM.locationPingActive = false
-    if CM.ReconcileFreeLook then
-      CM.ReconcileFreeLook()
-    end
+    FinishLocationPing(generation)
   end)
 end
 -- Selecting a radial slice moves the cursor. The existing camera-centering bounce
@@ -46,7 +47,6 @@ function CM.PrepareLocationPingAtReticle()
   CM.LockFreeLook()
   BeginLocationPing()
 end
-CM.FinishLocationPing = EndLocationPing
 
 local wheel =
   _G.CreateFrame("Frame", "CombatModePingMenu", _G.UIParent, "SecureHandlerBaseTemplate")
@@ -94,20 +94,21 @@ local PRE = [[
       end
     end
   end
+  if slot == 0 then
+    ]] .. HIDE .. [[
+    return false
+  end
   self:SetAttribute("useOnKeyDown", false)
   return "s"..slot, true
 ]]
-for i = 0, 4 do
+for i, entry in ipairs(entries) do
   local slice =
     _G.CreateFrame("Button", "CombatModePingMenuSlice" .. i, wheel, "SecureActionButtonTemplate")
   slice:SetSize(1, 1)
   slice:RegisterForClicks("AnyUp")
   slice:SetAttribute("useOnKeyDown", false)
   slice:SetAttribute("type", "macro")
-  local macro = "/ping [@softenemy,exists][@softfriend,exists][@mouseover,exists][@cursor]"
-  if i > 0 then
-    macro = macro .. " " .. i
-  end
+  local _, macro = CM.RadialEntrySecure(entry)
   slice:SetAttribute("macrotext", macro)
   slice:EnableMouse(false)
   slice:HookScript("PreClick", function(_, _, down)
@@ -153,7 +154,7 @@ function CM.PingMenuGetFrame()
   return wheel
 end
 function CM.PingMenuCurrent()
-  return 1, 0, entries, L["Ping"]
+  return 1, 0, entries, pingWheel.name
 end
 function CM.PingMenuAimSlot()
   if not wheel:IsShown() then
@@ -203,5 +204,5 @@ local lifecycle = _G.CreateFrame("Frame")
 lifecycle:RegisterEvent("PLAYER_LOGIN")
 lifecycle:RegisterEvent("UPDATE_BINDINGS")
 lifecycle:SetScript("OnEvent", function()
-  CM.TryApplyBindingChange(L["Ping menu"], CM.RefreshPingMenu)
+  CM.TryApplyBindingChange(L["Separate Ping Wheel"], CM.RefreshPingMenu)
 end)

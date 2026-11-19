@@ -442,15 +442,15 @@ L["A support-focused mode that, when active, switches your main action bar to a 
   "활성화하면 주 행동 단축바를 전용 지원 페이지로 전환하고, 이로운 주문이 조준점 아래의 우호적 대상을 지정할 수 있게 하는 지원 중심 모드입니다."
 L["Support Mode Keybind"] = "지원 모드 단축키"
 L["Self-Cast Keybind"] = "자신에게 시전 단축키"
-L["Hold while in Support Mode to cast the helpful spells on your click-cast buttons on yourself. Your target and Target Lock stay as they are."] =
-  "지원 모드에서 누르고 있으면 클릭 시전 버튼의 이로운 주문을 자신에게 시전합니다. 대상과 대상 고정은 그대로 유지됩니다."
+L["Hold to cast your click-cast helpful spells on yourself. Your target and Target Lock don't change."] =
+  "누르고 있으면 클릭 시전 버튼의 이로운 주문을 자신에게 시전합니다. 대상과 대상 고정은 바뀌지 않습니다."
 L["Prioritize Crosshair Target"] = "조준점 대상 우선"
 L["Cycle NPCs and Pets"] = "NPC 및 소환수 순환"
-L["In Support Mode, Cycle Lock also moves to nearby NPCs and pets. While off, friendly pet nameplates are hidden, also outside Support Mode."] =
-  "지원 모드에서 고정 순환이 주변 NPC와 소환수로도 이동합니다. 꺼져 있는 동안에는 지원 모드 밖에서도 우호적인 소환수의 이름표가 숨겨집니다."
+L["Cycle Lock also includes nearby NPCs and pets. While off, friendly pet nameplates are hidden."] =
+  "고정 순환에 주변 NPC와 소환수도 포함됩니다. 꺼져 있는 동안에는 우호적인 소환수의 이름표가 숨겨집니다."
 L["Cycle in Group Order"] = "파티 순서대로 순환"
-L["In Support Mode, Cycle Lock moves through your party or raid in group order instead of to the nearest ally. With nobody locked, Next locks the first member and Previous the last."] =
-  "지원 모드에서 고정 순환이 가장 가까운 아군 대신 파티나 공격대원을 순서대로 이동합니다. 고정된 대상이 없으면 다음은 첫 번째 파티원을, 이전은 마지막 파티원을 고정합니다."
+L["Cycle Lock follows your party or raid order instead of the nearest ally. The first press locks the first member (Next) or the last (Previous)."] =
+  "고정 순환이 가장 가까운 아군 대신 파티나 공격대의 순서를 따릅니다. 처음 누르면 다음은 첫 번째 대원을, 이전은 마지막 대원을 고정합니다."
 L["Prioritizes the ally under your crosshair over other friendly targets (e.g. Ally Cycle). Disable to prioritize your selected target instead."] =
   "다른 우호적 대상(아군 순환으로 고른 대상 등)을 선택해 두었더라도 조준점 아래의 아군에게 주문이 시전됩니다. 끄면 선택한 대상에게 먼저 시전합니다."
 L["Tap to toggle Support Mode on or off."] = "눌러서 지원 모드를 켜거나 끕니다."
@@ -842,18 +842,13 @@ L["Macro “%s” no longer fits with the current preline; edit it from Reticle 
   "매크로 「%s」이(가) 현재 사전 줄과 함께 들어가지 않습니다. 조준선 대상 지정 매크로에서 편집하세요."
 L["Click to print URL to chat"] = "클릭하여 URL을 대화창에 출력"
 
--- Ping menu (English fallback).
-L["Assist"] = "Assist"
-L["Attack"] = "Attack"
-L["On My Way"] = "On My Way"
-L["Open the dedicated Ping menu. Both keybinds have the same tap and hold behavior."] =
-  "Open the dedicated Ping menu. Both keybinds have the same tap and hold behavior."
-L["PING"] = "PING"
-L["Ping"] = "Ping"
-L["Ping menu"] = "Ping menu"
-L["Ping menu keybinding"] = "Ping menu keybinding"
-L["Primary Keybind"] = "Primary Keybind"
-L["Secondary Keybind"] = "Secondary Keybind"
-L["Tap to ping the unit or ground under your reticle. Hold, choose Attack, Warning, On My Way or Assist, then release. Escape or right-click cancels the menu."] =
-  "Tap to ping the unit or ground under your reticle. Hold, choose Attack, Warning, On My Way or Assist, then release. Escape or right-click cancels the menu."
-L["Warning"] = "Warning"
+-- Ping preset and optional direct bindings.
+L["Assist"] = "지원"
+L["Attack"] = "공격"
+L["On My Way"] = "이동 중"
+L["Warning"] = "경고"
+L["Ping"] = "핑"
+L["Separate Ping Wheel"] = "별도 핑 메뉴"
+L["Separate Ping Wheel (Secondary)"] = "별도 핑 메뉴 (보조)"
+L["Hold this binding to open the Ping wheel directly. Release toward a slice to ping."] =
+  "키를 누르고 있으면 핑 메뉴가 열립니다. 원하는 항목에서 키를 놓으면 핑을 보냅니다."

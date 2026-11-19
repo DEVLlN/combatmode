@@ -31,8 +31,8 @@ return function(Check, CM)
     macro,
     table.concat({
       "/clearfocus [@focus,dead]",
-      "/focus [@mouseover,harm,nodead][@focus,harm,nodead][harm,nodead]",
-      "/tar [@focus,harm,nodead]",
+      "/tar [@mouseover,harm,nodead][@focus,harm,nodead]",
+      "/focus [harm,nodead]",
       "/startattack [harm,nodead]",
     }, "\n")
   )

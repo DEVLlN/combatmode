@@ -94,8 +94,8 @@ CM.Constants.Macros = {
   -- Click-cast Start Attack / Pet Attack: hostile under the reticle, then swing.
   CM_StartAttack = "/tar [@focus,harm];[nomounted,@mouseover,harm,nodead][nomounted,@anyenemy]\n/startattack",
   CM_LockAndAttack = "/clearfocus [@focus,dead]\n"
-    .. "/focus [@mouseover,harm,nodead][@focus,harm,nodead][harm,nodead]\n"
-    .. "/tar [@focus,harm,nodead]\n/startattack [harm,nodead]",
+    .. "/tar [@mouseover,harm,nodead][@focus,harm,nodead]\n"
+    .. "/focus [harm,nodead]\n/startattack [harm,nodead]",
   CM_PetAttack = "/tar [@focus,harm];[nomounted,@mouseover,harm,nodead][nomounted,@anyenemy]\n/petattack",
 }
 

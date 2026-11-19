@@ -369,14 +369,14 @@ L["A support-focused mode that, when active, switches your main action bar to a 
   true
 L["Support Mode Keybind"] = true
 L["Self-Cast Keybind"] = true
-L["Hold while in Support Mode to cast the helpful spells on your click-cast buttons on yourself. Your target and Target Lock stay as they are."] =
+L["Hold to cast your click-cast helpful spells on yourself. Your target and Target Lock don't change."] =
   true
 L["Prioritize Crosshair Target"] = true
 L["Cycle NPCs and Pets"] = true
-L["In Support Mode, Cycle Lock also moves to nearby NPCs and pets. While off, friendly pet nameplates are hidden, also outside Support Mode."] =
+L["Cycle Lock also includes nearby NPCs and pets. While off, friendly pet nameplates are hidden."] =
   true
 L["Cycle in Group Order"] = true
-L["In Support Mode, Cycle Lock moves through your party or raid in group order instead of to the nearest ally. With nobody locked, Next locks the first member and Previous the last."] =
+L["Cycle Lock follows your party or raid order instead of the nearest ally. The first press locks the first member (Next) or the last (Previous)."] =
   true
 L["Prioritizes the ally under your crosshair over other friendly targets (e.g. Ally Cycle). Disable to prioritize your selected target instead."] =
   true

@@ -827,5 +827,5 @@ L["Warning"] = "警告"
 L["Ping"] = "信號"
 L["Separate Ping Wheel"] = "獨立信號轉盤"
 L["Separate Ping Wheel (Secondary)"] = "獨立信號轉盤（第二組）"
-L["Hold this binding to open the Ping wheel directly. Release toward a slice to ping."] =
-  "按住此鍵直接打開信號轉盤。在所選區塊放開即可送出信號。"
+L["Tap to ping under the crosshair. Hold and release toward a slice to choose a ping."] =
+  "輕按可在準星下傳送信號。按住並朝目標扇區放開可選擇信號。"

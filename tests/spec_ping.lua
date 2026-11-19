@@ -7,6 +7,17 @@ return function(Check, CM, env)
   end
   Check("primary command", CM.PingMenuBindingCommands[1], "Combat Mode - Ping Menu")
   Check("secondary command", CM.PingMenuBindingCommands[2], "Combat Mode - Ping Menu Secondary")
+  local contextual = CM.Constants.ClickCastPingMacros.TOGGLEPINGLISTENER
+  Check(
+    "quick ping prefers units and falls back to ground",
+    contextual,
+    "/ping [@mouseover,exists][@softenemy,exists][@softfriend,exists][@cursor]"
+  )
+  Check(
+    "the existing Click Casting action uses the ground fallback",
+    CM.Constants.BlizzardActionMacros.TOGGLEPINGLISTENER,
+    contextual
+  )
   local oldDB, oldRefresh = CM.DB, CM.RadialRefresh
   CM.RadialRefresh = nil
   CM.DB = { char = { radialMenu = { presetsSeeded = true, wheels = {} } } }
@@ -37,12 +48,29 @@ return function(Check, CM, env)
   CM.ReconcileFreeLook = function()
     restored = restored + 1
   end
-  CM.PrepareLocationPingAtReticle()
+  local locationPing, hooks = true, {}
+  local button = {
+    GetAttribute = function(_, name)
+      return name == "locationping" and locationPing
+    end,
+    HookScript = function(_, name, handler)
+      hooks[name] = handler
+    end,
+  }
+  CM.HookReticlePingButton(button)
+  hooks.PreClick(button, "LeftButton", true)
+  Check("press does not unlock before the release", #callbacks, 0)
+  locationPing = false
+  hooks.PreClick(button, "LeftButton", false)
+  hooks.PostClick(button, "LeftButton", false)
+  Check("ordinary Click Casting actions leave Mouse Look alone", #callbacks, 0)
+  locationPing = true
+  hooks.PreClick(button, "LeftButton", false)
   Check("ping temporarily releases Mouse Look", CM.locationPingActive, true)
   callbacks[1]()
   Check("a dropped click still restores Mouse Look", CM.locationPingActive, false)
-  CM.PrepareLocationPingAtReticle()
-  CM.FinishLocationPing()
+  hooks.PreClick(button, "LeftButton", false)
+  hooks.PostClick(button, "LeftButton", false)
   callbacks[3]()
   callbacks[2]()
   Check("PostClick restores only once", restored, 2)

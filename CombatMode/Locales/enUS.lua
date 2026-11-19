@@ -742,4 +742,4 @@ L["Warning"] = true
 L["Ping"] = true
 L["Separate Ping Wheel"] = true
 L["Separate Ping Wheel (Secondary)"] = true
-L["Hold this binding to open the Ping wheel directly. Release toward a slice to ping."] = true
+L["Tap to ping under the crosshair. Hold and release toward a slice to choose a ping."] = true

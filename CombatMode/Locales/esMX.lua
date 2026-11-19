@@ -849,5 +849,5 @@ L["Warning"] = "Advertencia"
 L["Ping"] = "Señal"
 L["Separate Ping Wheel"] = "Rueda de señales independiente"
 L["Separate Ping Wheel (Secondary)"] = "Rueda de señales independiente (secundaria)"
-L["Hold this binding to open the Ping wheel directly. Release toward a slice to ping."] =
-  "Mantén presionada la tecla para abrir la rueda de señales. Suéltala sobre un segmento para marcar."
+L["Tap to ping under the crosshair. Hold and release toward a slice to choose a ping."] =
+  "Pulsa para señalar bajo la mira. Mantén pulsado y suelta hacia un segmento para elegir una señal."

@@ -100,16 +100,21 @@ CM.Constants.Macros = {
 -- crosshair (@mouseover); the markers prefer the hard target and only use the unit under the
 -- crosshair when there is none.
 --  • Ping System: /ping types are the locale-independent numbers 1 Attack, 2 Warning, 3 On My Way,
---    4 Assist; no type is the contextual ping (Blizzard's "Ping"). Unit pings only: /ping @cursor
---    would use the real cursor position, which stays where the cursor was before Mouse Look.
+--    4 Assist; no type is the contextual ping (Blizzard's "Ping"). The click proxy
+--    centers the real cursor at the reticle before the ground fallback can run.
 --  • Raid target markers: /tm <1-8, 0 clears>.
-CM.Constants.BlizzardActionMacros = {
-  TOGGLEPINGLISTENER = "/ping [@mouseover,exists]",
-  PINGATTACK = "/ping [@mouseover,exists] 1",
-  PINGWARNING = "/ping [@mouseover,exists] 2",
-  PINGONMYWAY = "/ping [@mouseover,exists] 3",
-  PINGASSIST = "/ping [@mouseover,exists] 4",
+local RETICLE_PING = "/ping [@mouseover,exists][@softenemy,exists][@softfriend,exists][@cursor]"
+CM.Constants.ClickCastPingMacros = {
+  TOGGLEPINGLISTENER = RETICLE_PING,
+  PINGATTACK = RETICLE_PING .. " 1",
+  PINGWARNING = RETICLE_PING .. " 2",
+  PINGONMYWAY = RETICLE_PING .. " 3",
+  PINGASSIST = RETICLE_PING .. " 4",
 }
+CM.Constants.BlizzardActionMacros = {}
+for action, macroText in pairs(CM.Constants.ClickCastPingMacros) do
+  CM.Constants.BlizzardActionMacros[action] = macroText
+end
 CM.Constants.BlizzardActionOrder = {
   "TOGGLEPINGLISTENER",
   "PINGATTACK",

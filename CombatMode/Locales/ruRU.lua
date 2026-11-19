@@ -893,5 +893,5 @@ L["Ping"] = "Сигнал"
 L["Separate Ping Wheel"] = "Отдельное колесо сигналов"
 L["Separate Ping Wheel (Secondary)"] =
   "Отдельное колесо сигналов (второе)"
-L["Hold this binding to open the Ping wheel directly. Release toward a slice to ping."] =
-  "Удерживайте клавишу, чтобы открыть колесо сигналов. Отпустите над сектором, чтобы подать сигнал."
+L["Tap to ping under the crosshair. Hold and release toward a slice to choose a ping."] =
+  "Нажмите, чтобы подать сигнал под прицелом. Удерживайте кнопку и отпустите её над сектором, чтобы выбрать сигнал."

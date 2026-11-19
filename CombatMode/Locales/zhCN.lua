@@ -827,5 +827,5 @@ L["Warning"] = "警告"
 L["Ping"] = "信号"
 L["Separate Ping Wheel"] = "独立信号轮盘"
 L["Separate Ping Wheel (Secondary)"] = "独立信号轮盘（次要）"
-L["Hold this binding to open the Ping wheel directly. Release toward a slice to ping."] =
-  "按住此键直接打开信号轮盘。在所选扇区松开即可发送信号。"
+L["Tap to ping under the crosshair. Hold and release toward a slice to choose a ping."] =
+  "轻按可在准星下发送信号。按住并朝目标扇区松开可选择信号。"

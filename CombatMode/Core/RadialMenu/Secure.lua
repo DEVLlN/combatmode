@@ -226,16 +226,7 @@ if SecureHandlerWrapScript then
     slice:SetAttribute("checkfocuscast", false)
     slice:SetAttribute("checkmouseovercast", false)
     slice:EnableMouse(false)
-    slice:HookScript("PreClick", function(button, _, down)
-      if not down and button:GetAttribute("locationping") then
-        CM.PrepareLocationPingAtReticle()
-      end
-    end)
-    slice:HookScript("PostClick", function(button, _, down)
-      if not down and button:GetAttribute("locationping") then
-        CM.FinishLocationPing()
-      end
-    end)
+    CM.HookReticlePingButton(slice)
     -- Pre: leave the click alone and hand "true" to the post body, which closes the wheel.
     SecureHandlerWrapScript(slice, "OnClick", Wheel, "return nil, true", HIDE)
     SecureHandlerSetFrameRef(Wheel, "slice" .. i, slice)

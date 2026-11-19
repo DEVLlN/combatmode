@@ -850,5 +850,5 @@ L["Warning"] = "경고"
 L["Ping"] = "핑"
 L["Separate Ping Wheel"] = "별도 핑 메뉴"
 L["Separate Ping Wheel (Secondary)"] = "별도 핑 메뉴 (보조)"
-L["Hold this binding to open the Ping wheel directly. Release toward a slice to ping."] =
-  "키를 누르고 있으면 핑 메뉴가 열립니다. 원하는 항목에서 키를 놓으면 핑을 보냅니다."
+L["Tap to ping under the crosshair. Hold and release toward a slice to choose a ping."] =
+  "짧게 누르면 조준점 아래에 신호를 보냅니다. 길게 누른 뒤 원하는 칸을 향해 놓으면 신호를 선택합니다."

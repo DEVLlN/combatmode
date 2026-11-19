@@ -1,10 +1,10 @@
 ---------------------------------------------------------------------------------------
 --  Core/Ping/Ping.lua — PING — dedicated Ping menu
 ---------------------------------------------------------------------------------------
--- What it does: Opens the Ping preset from an optional dedicated binding.
--- Architecture: Secure click buttons share the radial renderer; settings use named bindings.
--- Does not: Change player bindings or send a ping from the centre of the wheel.
--- Related: Core/RadialMenu/View.lua, Core/FreeLook/FreeLookController.lua.
+-- What it does: Opens the Ping preset from an optional dedicated binding and pings on a centre release.
+-- Architecture: Secure click buttons share the radial renderer and Click Casting ping action.
+-- Does not: Assign bindings automatically.
+-- Related: Core/RadialMenu/View.lua, Core/FreeLook/FreeLookController.lua, Core/ClickCasting/BindingOverrides.lua.
 local _, CM = ...
 local _G = _G
 local L = CM.L
@@ -94,33 +94,25 @@ local PRE = [[
       end
     end
   end
-  if slot == 0 then
-    ]] .. HIDE .. [[
-    return false
-  end
   self:SetAttribute("useOnKeyDown", false)
   return "s"..slot, true
 ]]
-for i, entry in ipairs(entries) do
+for i = 0, #entries do
   local slice =
     _G.CreateFrame("Button", "CombatModePingMenuSlice" .. i, wheel, "SecureActionButtonTemplate")
   slice:SetSize(1, 1)
   slice:RegisterForClicks("AnyUp")
   slice:SetAttribute("useOnKeyDown", false)
   slice:SetAttribute("type", "macro")
-  local _, macro = CM.RadialEntrySecure(entry)
+  local macro = CM.Constants.ClickCastPingMacros.TOGGLEPINGLISTENER
+  if i > 0 then
+    local _
+    _, macro = CM.RadialEntrySecure(entries[i])
+  end
   slice:SetAttribute("macrotext", macro)
+  slice:SetAttribute("locationping", true)
   slice:EnableMouse(false)
-  slice:HookScript("PreClick", function(_, _, down)
-    if not down then
-      CM.PrepareLocationPingAtReticle()
-    end
-  end)
-  slice:HookScript("PostClick", function(_, _, down)
-    if not down then
-      CM.FinishLocationPing()
-    end
-  end)
+  CM.HookReticlePingButton(slice)
   _G.SecureHandlerWrapScript(slice, "OnClick", wheel, "return nil, true", HIDE)
   key:SetAttribute("*clickbutton-s" .. i, slice)
 end

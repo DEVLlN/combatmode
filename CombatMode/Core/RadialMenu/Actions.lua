@@ -703,13 +703,7 @@ for _, ping in ipairs({
   { "pingonmyway", L["On My Way"], "Ability_Rogue_Sprint", 3 },
   { "pingassist", L["Assist"], "Spell_Holy_BlessingOfProtection", 4 },
 }) do
-  Command(
-    ping[1],
-    ping[2],
-    "command",
-    Icon(ping[3]),
-    "/ping [@softenemy,exists][@softfriend,exists][@mouseover,exists][@cursor] " .. ping[4]
-  )
+  Command(ping[1], ping[2], "command", Icon(ping[3]), CM.BuildReticlePingMacro(ping[4]))
   local def = DEFINITIONS[#DEFINITIONS]
   def.locationPing = true
   -- Read the same type/texture-kit mapping that Blizzard uses for its ping wheel.

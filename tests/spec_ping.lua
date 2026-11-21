@@ -9,9 +9,9 @@ return function(Check, CM, env)
   Check("secondary command", CM.PingMenuBindingCommands[2], "Combat Mode - Ping Menu Secondary")
   local contextual = CM.Constants.ClickCastPingMacros.TOGGLEPINGLISTENER
   Check(
-    "quick ping prefers units and falls back to ground",
+    "quick ping follows the cursor independently of soft targets",
     contextual,
-    "/ping [@mouseover,exists][@softenemy,exists][@softfriend,exists][@cursor]"
+    "/ping [@mouseover,exists]\n/stopmacro [@mouseover,exists]\n/ping"
   )
   Check(
     "the existing Click Casting action uses the ground fallback",
@@ -121,6 +121,31 @@ return function(Check, CM, env)
   callbacks[3]()
   callbacks[2]()
   Check("PostClick restores only once", restored, 2)
+  local oldCursor = env.GetCursorPosition
+  local recenterCount = 0
+  CM.LockFreeLook = function()
+    recenterCount = recenterCount + 1
+  end
+  local wheelFrame = {
+    GetCenter = function()
+      return 250, 300
+    end,
+    GetEffectiveScale = function()
+      return 2
+    end,
+  }
+  env.GetCursorPosition = function()
+    return 501, 600
+  end
+  CM.PrepareLocationPingAtReticle(wheelFrame)
+  Check("a centered tap preserves mouseover", recenterCount, 0)
+  env.GetCursorPosition = function()
+    return 540, 600
+  end
+  CM.PrepareLocationPingAtReticle(wheelFrame)
+  Check("releasing over a slice recenters", recenterCount, 1)
+  callbacks[#callbacks]()
+  env.GetCursorPosition = oldCursor
   env.C_Timer = oldTimer
   CM.LockFreeLook, CM.UnlockFreeLook = oldLock, oldUnlock
   CM.SetCursorFreelookCentering, CM.ReconcileFreeLook = oldCenter, oldReconcile

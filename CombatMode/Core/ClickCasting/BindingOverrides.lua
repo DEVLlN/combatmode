@@ -126,7 +126,7 @@ local ClickCastFramesByKey = {}
 function CM.HookReticlePingButton(frame)
   frame:HookScript("PreClick", function(button, _, down)
     if not down and button:GetAttribute("locationping") then
-      CM.PrepareLocationPingAtReticle()
+      CM.PrepareLocationPingAtReticle(button:GetAttribute("pingwheel") and button:GetParent())
     end
   end)
   frame:HookScript("PostClick", function(button, _, down)

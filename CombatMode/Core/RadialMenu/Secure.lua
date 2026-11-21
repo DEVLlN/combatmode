@@ -226,6 +226,7 @@ if SecureHandlerWrapScript then
     slice:SetAttribute("checkfocuscast", false)
     slice:SetAttribute("checkmouseovercast", false)
     slice:EnableMouse(false)
+    slice:SetAttribute("pingwheel", true)
     CM.HookReticlePingButton(slice)
     -- Pre: leave the click alone and hand "true" to the post body, which closes the wheel.
     SecureHandlerWrapScript(slice, "OnClick", Wheel, "return nil, true", HIDE)

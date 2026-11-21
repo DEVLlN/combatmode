@@ -103,14 +103,29 @@ CM.Constants.Macros = {
 --    4 Assist; no type is the contextual ping (Blizzard's "Ping"). The click proxy
 --    centers the real cursor at the reticle before the ground fallback can run.
 --  • Raid target markers: /tm <1-8, 0 clears>.
-local RETICLE_PING = "/ping [@mouseover,exists][@softenemy,exists][@softfriend,exists][@cursor]"
+-- Target Lock can pin the soft target to a unit away from the reticle.
+-- Use the current mouseover or let Blizzard hit-test the centered cursor for
+-- an NPC or ground point. Neither path changes target or focus.
+local RETICLE_PING_MOUSEOVER = "[@mouseover,exists]"
+function CM.BuildReticlePingMacro(pingType)
+  local suffix = pingType and (" " .. pingType) or ""
+  return "/ping "
+    .. RETICLE_PING_MOUSEOVER
+    .. suffix
+    .. "\n/stopmacro "
+    .. RETICLE_PING_MOUSEOVER
+    .. "\n/ping"
+    .. suffix
+end
+
 CM.Constants.ClickCastPingMacros = {
-  TOGGLEPINGLISTENER = RETICLE_PING,
-  PINGATTACK = RETICLE_PING .. " 1",
-  PINGWARNING = RETICLE_PING .. " 2",
-  PINGONMYWAY = RETICLE_PING .. " 3",
-  PINGASSIST = RETICLE_PING .. " 4",
+  TOGGLEPINGLISTENER = CM.BuildReticlePingMacro(),
+  PINGATTACK = CM.BuildReticlePingMacro(1),
+  PINGWARNING = CM.BuildReticlePingMacro(2),
+  PINGONMYWAY = CM.BuildReticlePingMacro(3),
+  PINGASSIST = CM.BuildReticlePingMacro(4),
 }
+
 CM.Constants.BlizzardActionMacros = {}
 for action, macroText in pairs(CM.Constants.ClickCastPingMacros) do
   CM.Constants.BlizzardActionMacros[action] = macroText

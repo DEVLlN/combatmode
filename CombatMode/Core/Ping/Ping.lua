@@ -41,11 +41,23 @@ function CM.FinishLocationPing()
     FinishLocationPing(generation)
   end)
 end
--- Selecting a radial slice moves the cursor. The existing camera-centering bounce
--- returns it to the reticle without changing the aimed point before the macro fires.
-function CM.PrepareLocationPingAtReticle()
-  CM.locationPingActive = false
-  CM.LockFreeLook()
+local function IsCursorAtReticle(wheel)
+  local x, y = wheel:GetCenter()
+  if not x or not y then
+    return false
+  end
+  local scale = wheel:GetEffectiveScale()
+  local cursorX, cursorY = _G.GetCursorPosition()
+  return math.abs(cursorX - x * scale) <= 1 and math.abs(cursorY - y * scale) <= 1
+end
+
+-- A tap can already have the cursor on the reticle. Restarting Mouse Look
+-- there can discard the current mouseover before the ping macro reads it.
+function CM.PrepareLocationPingAtReticle(wheel)
+  if not wheel or not IsCursorAtReticle(wheel) then
+    CM.locationPingActive = false
+    CM.LockFreeLook()
+  end
   BeginLocationPing()
 end
 
@@ -155,6 +167,7 @@ for i = 0, #entries do
   end
   slice:SetAttribute("macrotext", macro)
   slice:SetAttribute("locationping", true)
+  slice:SetAttribute("pingwheel", true)
   slice:EnableMouse(false)
   CM.HookReticlePingButton(slice)
   _G.SecureHandlerWrapScript(slice, "OnClick", wheel, "return nil, true", HIDE)

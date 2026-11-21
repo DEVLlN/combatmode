@@ -1102,21 +1102,6 @@ UI.Options.AddTab({
       end,
     })
 
-    for index, command in ipairs(CM.PingMenuBindingCommands) do
-      ctx:Keybind({
-        label = index == 1 and L["Separate Ping Wheel"] or L["Separate Ping Wheel (Secondary)"],
-        allowPrimaryMouse = true,
-        desc = L["Tap to ping under the crosshair. Hold and release toward a slice to choose a ping."],
-        get = function()
-          return CM.GetSeparatePingBinding(command)
-        end,
-        set = function(binding)
-          CM.TryApplyBindingChange(L["Separate Ping Wheel"], function()
-            CM.SetSeparatePingBinding(command, binding)
-          end)
-        end,
-      })
-    end
     ctx:Dropdown({
       label = L["Radial Menu Style"],
       desc = L["Choose the appearance of the Radial Menu wheels."],
@@ -1166,6 +1151,23 @@ UI.Options.AddTab({
           group = ctx.search.group,
           section = ctx.section,
         },
+      })
+    end
+
+    ctx:Gap()
+    for index, command in ipairs(CM.PingMenuBindingCommands) do
+      ctx:Keybind({
+        label = index == 1 and L["Separate Ping Wheel"] or L["Separate Ping Wheel (Secondary)"],
+        allowPrimaryMouse = true,
+        desc = L["Tap to ping under the crosshair. Hold and release toward a slice to choose a ping."],
+        get = function()
+          return CM.GetSeparatePingBinding(command)
+        end,
+        set = function(binding)
+          CM.TryApplyBindingChange(L["Separate Ping Wheel"], function()
+            CM.SetSeparatePingBinding(command, binding)
+          end)
+        end,
       })
     end
   end,

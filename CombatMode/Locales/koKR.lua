@@ -849,7 +849,6 @@ L["On My Way"] = "이동 중"
 L["Warning"] = "경고"
 L["Ping"] = "핑"
 L["Separate Ping Wheel"] = "별도 핑 메뉴"
-L["Separate Ping Wheel (Secondary)"] = "별도 핑 메뉴 (보조)"
 L["Tap to ping under the crosshair. Hold and release toward a slice to choose a ping."] =
   "짧게 누르면 조준점 아래에 신호를 보냅니다. 길게 누른 뒤 원하는 칸을 향해 놓으면 신호를 선택합니다."
 
@@ -857,3 +856,6 @@ L["Tap to ping under the crosshair. Hold and release toward a slice to choose a 
 L["Unlock Cursor for Ping"] = "핑 사용 시 커서 잠금 해제"
 L["Hold a Blizzard Ping binding to aim with the cursor. Release it to resume Mouse Look. Off by default."] =
   "블리자드 핑 키를 누르고 있으면 커서로 조준합니다. 놓으면 마우스 시점 제어로 돌아갑니다. 기본값은 꺼짐입니다."
+L["Separate Ping Wheel Keybind"] = "별도 핑 휠 단축키"
+L["While a separate key is bound, Ping is skipped by the shared Radial Menu key."] =
+  "별도 단축키가 지정되어 있으면 공용 방사형 메뉴에서 핑 휠이 표시되지 않습니다."

@@ -826,7 +826,6 @@ L["On My Way"] = "正在路上"
 L["Warning"] = "警告"
 L["Ping"] = "信號"
 L["Separate Ping Wheel"] = "獨立信號轉盤"
-L["Separate Ping Wheel (Secondary)"] = "獨立信號轉盤（第二組）"
 L["Tap to ping under the crosshair. Hold and release toward a slice to choose a ping."] =
   "輕按可在準星下傳送信號。按住並朝目標扇區放開可選擇信號。"
 
@@ -834,3 +833,6 @@ L["Tap to ping under the crosshair. Hold and release toward a slice to choose a 
 L["Unlock Cursor for Ping"] = "發送信號時解鎖游標"
 L["Hold a Blizzard Ping binding to aim with the cursor. Release it to resume Mouse Look. Off by default."] =
   "按住暴雪的信號快捷鍵以游標瞄準。放開後恢復滑鼠視角控制。預設關閉。"
+L["Separate Ping Wheel Keybind"] = "獨立信號轉盤按鍵"
+L["While a separate key is bound, Ping is skipped by the shared Radial Menu key."] =
+  "設定獨立按鍵後，共用環形選單會略過信號轉盤。"

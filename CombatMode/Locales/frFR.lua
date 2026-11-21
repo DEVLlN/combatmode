@@ -849,7 +849,6 @@ L["On My Way"] = "En route"
 L["Warning"] = "Avertissement"
 L["Ping"] = "Signal"
 L["Separate Ping Wheel"] = "Roue de signaux séparée"
-L["Separate Ping Wheel (Secondary)"] = "Roue de signaux séparée (secondaire)"
 L["Tap to ping under the crosshair. Hold and release toward a slice to choose a ping."] =
   "Appuyez pour signaler sous le réticule. Maintenez puis relâchez vers un secteur pour choisir un signal."
 
@@ -857,3 +856,6 @@ L["Tap to ping under the crosshair. Hold and release toward a slice to choose a 
 L["Unlock Cursor for Ping"] = "Libérer le curseur pour les signaux"
 L["Hold a Blizzard Ping binding to aim with the cursor. Release it to resume Mouse Look. Off by default."] =
   "Maintenez un raccourci de signal Blizzard pour viser avec le curseur. Relâchez-le pour reprendre la vue à la souris. Désactivé par défaut."
+L["Separate Ping Wheel Keybind"] = "Raccourci de la roue de signaux séparée"
+L["While a separate key is bound, Ping is skipped by the shared Radial Menu key."] =
+  "Tant qu’un raccourci distinct est attribué, le menu radial partagé ignore la roue des signaux."

@@ -189,6 +189,9 @@ local function NewLayout(content, width, clip)
       end
     end
     self.y = y
+    if self.bottomPad then
+      self:Finish()
+    end
   end
 
   --- Records what the options search needs (label, description, owning tab / segment)
@@ -403,7 +406,7 @@ local function NewLayout(content, width, clip)
     if height < 1 then
       height = 1
     end
-    self.content:SetHeight(height)
+    self.content:SetHeight(height + (self.bottomPad or 0))
   end
 
   return ctx
@@ -796,11 +799,13 @@ local function BuildTab(def, index)
 
   local ctx = NewLayout(content, contentWidth, scroll)
   ctx.search = { tab = def.id }
+  ctx.bottomPad = TAB_BOTTOM_PAD
   def.build(ctx)
-  ctx:Finish()
-  -- The scroll area runs to the window edge, so the content carries its own bottom padding:
-  -- the last row can be scrolled fully into view with a little room below it.
-  content:SetHeight(content:GetHeight() + TAB_BOTTOM_PAD)
+  if ctx.reflowHooked then
+    ctx:Reflow()
+  else
+    ctx:Finish()
+  end
 
   local tab = { def = def, index = index, scroll = scroll, bar = scroll.cmScrollBar }
   tab.button = BuildSidebarButton(def, index)

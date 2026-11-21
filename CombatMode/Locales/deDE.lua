@@ -846,7 +846,6 @@ L["On My Way"] = "Unterwegs"
 L["Warning"] = "Warnung"
 L["Ping"] = "Ping"
 L["Separate Ping Wheel"] = "Separates Ping-Rad"
-L["Separate Ping Wheel (Secondary)"] = "Separates Ping-Rad (zweite Taste)"
 L["Tap to ping under the crosshair. Hold and release toward a slice to choose a ping."] =
   "Tippe, um unter dem Fadenkreuz zu pingen. Halte die Taste und lass sie über einem Segment los, um einen Ping auszuwählen."
 
@@ -854,3 +853,6 @@ L["Tap to ping under the crosshair. Hold and release toward a slice to choose a 
 L["Unlock Cursor for Ping"] = "Cursor für Ping freigeben"
 L["Hold a Blizzard Ping binding to aim with the cursor. Release it to resume Mouse Look. Off by default."] =
   "Halte eine Blizzard-Ping-Taste gedrückt, um mit dem Cursor zu zielen. Loslassen setzt die Maussteuerung fort. Standardmäßig aus."
+L["Separate Ping Wheel Keybind"] = "Tastenbelegung für separates Ping-Rad"
+L["While a separate key is bound, Ping is skipped by the shared Radial Menu key."] =
+  "Solange eine separate Taste belegt ist, überspringt das gemeinsame Radialmenü das Ping-Rad."

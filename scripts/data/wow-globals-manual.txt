@@ -20,6 +20,7 @@ CombatModeFrame
 CombatModePartyWheelCentre
 CombatModeRadialWheel
 CombatModeTargetingMacroPrelinesEditor
+SLASH_ACMLOCALPINGTRACE1
 SLASH_COMBATMODE1
 SLASH_COMBATMODE2
 

@@ -891,8 +891,6 @@ L["On My Way"] = "В пути"
 L["Warning"] = "Предупреждение"
 L["Ping"] = "Сигнал"
 L["Separate Ping Wheel"] = "Отдельное колесо сигналов"
-L["Separate Ping Wheel (Secondary)"] =
-  "Отдельное колесо сигналов (второе)"
 L["Tap to ping under the crosshair. Hold and release toward a slice to choose a ping."] =
   "Нажмите, чтобы подать сигнал под прицелом. Удерживайте кнопку и отпустите её над сектором, чтобы выбрать сигнал."
 
@@ -900,3 +898,7 @@ L["Tap to ping under the crosshair. Hold and release toward a slice to choose a 
 L["Unlock Cursor for Ping"] = "Освобождать курсор для сигналов"
 L["Hold a Blizzard Ping binding to aim with the cursor. Release it to resume Mouse Look. Off by default."] =
   "Удерживайте клавишу сигнала Blizzard для прицеливания курсором. Отпустите её для возврата к управлению камерой мышью. По умолчанию выключено."
+L["Separate Ping Wheel Keybind"] =
+  "Клавиша отдельного колеса сигналов"
+L["While a separate key is bound, Ping is skipped by the shared Radial Menu key."] =
+  "Пока назначена отдельная клавиша, общее круговое меню пропускает колесо сигналов."

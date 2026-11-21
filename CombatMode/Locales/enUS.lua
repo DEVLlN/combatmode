@@ -741,10 +741,11 @@ L["On My Way"] = true
 L["Warning"] = true
 L["Ping"] = true
 L["Separate Ping Wheel"] = true
-L["Separate Ping Wheel (Secondary)"] = true
 L["Tap to ping under the crosshair. Hold and release toward a slice to choose a ping."] = true
 
 -- Auto Unlock: optional cursor aiming for native Ping.
 L["Unlock Cursor for Ping"] = true
 L["Hold a Blizzard Ping binding to aim with the cursor. Release it to resume Mouse Look. Off by default."] =
   true
+L["Separate Ping Wheel Keybind"] = true
+L["While a separate key is bound, Ping is skipped by the shared Radial Menu key."] = true

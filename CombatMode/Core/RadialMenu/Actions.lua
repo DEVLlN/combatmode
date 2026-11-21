@@ -735,6 +735,18 @@ local function ClickButton(def)
 end
 
 --- True when the running client offers this action.
+-- These commands support callouts or group coordination.
+local PING_COMMANDS = {
+  readycheck = true,
+  countdown = true,
+  rolepoll = true,
+}
+
+function registry.IsPingWheelAction(action)
+  return action and (action.group == "marker" or action.locationPing or PING_COMMANDS[action.id])
+    or false
+end
+
 function registry.IsAvailable(def)
   if type(def) == "string" then
     def = registry.byId[def]

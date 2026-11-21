@@ -68,14 +68,8 @@ local SLICE_BTN = 40
 local STYLE_VALUES = { forever = L["Forever"], minimal = L["Minimal"] }
 local STYLE_ORDER = { "forever", "minimal" }
 
-local selected = 1
-
 local function Say(text)
   print(CM.Constants.BasePrintMsg .. "|cff909090: " .. text .. "|r")
-end
-
-local function CurrentWheel()
-  return CM.RadialGetWheels()[selected]
 end
 
 local function Resync()
@@ -86,7 +80,8 @@ end
 -- Slice action menu (the options dropdown, opened beside a slice)
 ---------------------------------------------------------------------------------------
 local CLEAR_ID = "__clear"
-local menuValues, menuOrder = { [CLEAR_ID] = L["Clear Slice"] }, {}
+local PING_SLICE_ACTIONS = L["Commands"] .. " / " .. L["Markers"]
+local menuValues, menuOrder, pingMenuOrder = { [CLEAR_ID] = L["Clear Slice"] }, {}, {}
 local menuHeaders = {
   __ui = L["UI Actions"],
   __emote = L["Emotes"],
@@ -103,70 +98,33 @@ for _, section in ipairs({
   { "__command", "command" },
   { "__marker", "marker" },
 }) do
+  local pingSection = section[2] == "command" or section[2] == "marker"
   menuOrder[#menuOrder + 1] = section[1]
+  if pingSection then
+    pingMenuOrder[#pingMenuOrder + 1] = section[1]
+  end
   for _, action in ipairs(CM.RadialActions.list) do
-    if
-      not action.locationPing
-      and action.group == section[2]
-      and CM.RadialActions.IsAvailable(action)
-    then
+    if action.group == section[2] and CM.RadialActions.IsAvailable(action) then
       menuValues[action.id] = action.label
       menuOrder[#menuOrder + 1] = action.id
+      if pingSection and CM.RadialActions.IsPingWheelAction(action) then
+        pingMenuOrder[#pingMenuOrder + 1] = action.id
+      end
     end
   end
 end
 menuOrder[#menuOrder + 1] = "__slice"
 menuOrder[#menuOrder + 1] = CLEAR_ID
-
-local sliceMenu
-local menuSlot
--- The slice whose dropdown is open keeps its wedge lit; the wheel row registers how to repaint.
-local pinnedSlot
-local onPinChange
-
-local function SetPinnedSlot(slot)
-  pinnedSlot = slot
-  if onPinChange then
-    onPinChange()
-  end
-end
-
-local function OpenSliceMenu(slot, anchor)
-  if not sliceMenu then
-    local host = CreateFrame("Frame", nil, UIParent)
-    host:Hide()
-    sliceMenu = UI.MakeDropdown(host, {
-      label = L["Slice"],
-      values = menuValues,
-      order = menuOrder,
-      headers = menuHeaders,
-      get = function()
-        local wheel = CurrentWheel()
-        local entry = wheel and wheel.slots and wheel.slots[menuSlot]
-        return entry and entry.kind == "action" and entry.id or nil
-      end,
-      set = function(id)
-        CM.RadialSetSlot(selected, menuSlot, id ~= CLEAR_ID and { kind = "action", id = id } or nil)
-        Resync()
-      end,
-    })
-    sliceMenu.onClosed = function()
-      SetPinnedSlot(nil)
-    end
-  end
-  menuSlot = slot
-  local wheel = CurrentWheel()
-  local entry = wheel and wheel.slots and wheel.slots[slot]
-  -- OpenAt closes a menu that is already open (firing onClosed), so pin after it.
-  sliceMenu.OpenAt(anchor, entry and (CM.RadialEntryInfo(entry)) or L["Choose an action"], 220)
-  SetPinnedSlot(slot)
-end
+pingMenuOrder[#pingMenuOrder + 1] = "__slice"
+pingMenuOrder[#pingMenuOrder + 1] = CLEAR_ID
 
 -- "+" menu: the preset wheels (CM.RadialPresetList) and a blank one.
 local BLANK_ID = "__blank"
 local wheelMenu
+local onWheelAdded
 
-local function OpenWheelMenu(anchor)
+local function OpenWheelMenu(anchor, onAdded)
+  onWheelAdded = onAdded
   if not wheelMenu then
     local host = CreateFrame("Frame", nil, UIParent)
     host:Hide()
@@ -189,7 +147,7 @@ local function OpenWheelMenu(anchor)
       set = function(key)
         local index = CM.RadialCreateWheel(nil, key ~= BLANK_ID and key or nil)
         if index then
-          selected = index
+          onWheelAdded(index)
         else
           Say(format(L["You can have up to %d wheels."], LAYOUT.MAX_WHEELS))
         end
@@ -203,9 +161,13 @@ end
 ---------------------------------------------------------------------------------------
 -- Wheel row
 ---------------------------------------------------------------------------------------
-local function ApplyDrop(slot)
+local function ApplyDrop(wheel, slot)
   if not GetCursorInfo() then
     return false
+  end
+  if wheel and CM.RadialIsPingWheel(wheel) then
+    Say(PING_SLICE_ACTIONS)
+    return true
   end
   local entry = CM.RadialEntryFromCursor()
   if not entry then
@@ -213,12 +175,12 @@ local function ApplyDrop(slot)
     return true
   end
   ClearCursor()
-  CM.RadialSetSlot(selected, slot, entry)
+  CM.RadialSetSlot(wheel, slot, entry)
   Resync()
   return true
 end
 
-local function BuildSliceButton(area, slot)
+local function BuildSliceButton(area, slot, CurrentWheel, OpenSliceMenu)
   local button = CreateFrame("Button", nil, area)
   button:SetSize(SLICE_BTN, SLICE_BTN)
   button:RegisterForClicks("LeftButtonUp", "RightButtonUp")
@@ -242,17 +204,20 @@ local function BuildSliceButton(area, slot)
   button.slot = slot
   button:SetScript("OnEnter", function(self)
     local wheel = CurrentWheel()
+    local ping = wheel and CM.RadialIsPingWheel(wheel)
     local entry = wheel and wheel.slots and wheel.slots[self.slot]
     if entry then
       UI.ShowTooltip(self, {
         title = (CM.RadialEntryInfo(entry)),
-        text = L["Drag a spell, item, toy, mount or macro here, or click to change the action."],
+        text = ping and PING_SLICE_ACTIONS
+          or L["Drag a spell, item, toy, mount or macro here, or click to change the action."],
         warning = "Right-click to remove this slice.",
       }, "ANCHOR_RIGHT")
     else
       UI.ShowTooltip(self, {
         title = L["Empty Slice"],
-        text = L["Drag a spell, item, toy, mount or macro here, or click to set an action. Empty slices are left out of the wheel."],
+        text = ping and PING_SLICE_ACTIONS
+          or L["Drag a spell, item, toy, mount or macro here, or click to set an action. Empty slices are left out of the wheel."],
         warning = "Right-click to remove this slice.",
       }, "ANCHOR_RIGHT")
     end
@@ -262,17 +227,17 @@ local function BuildSliceButton(area, slot)
   end)
   button:SetScript("OnClick", function(self, mouseButton)
     if mouseButton == "RightButton" then
-      if not CM.RadialRemoveSlice(selected, self.slot) then
+      if not CM.RadialRemoveSlice(CurrentWheel(), self.slot) then
         Say(L["A wheel needs at least one slice."])
       end
       UI.HideTooltip()
       Resync()
-    elseif not ApplyDrop(self.slot) then
+    elseif not ApplyDrop(CurrentWheel(), self.slot) then
       OpenSliceMenu(self.slot, self)
     end
   end)
   button:SetScript("OnReceiveDrag", function(self)
-    ApplyDrop(self.slot)
+    ApplyDrop(CurrentWheel(), self.slot)
   end)
   return button
 end
@@ -300,7 +265,7 @@ local function MakeArrow(parent, side)
   return button
 end
 
-local function BuildTitle(row)
+local function BuildTitle(row, CurrentWheel)
   local title = CreateFrame("Button", nil, row)
   title:SetSize(TITLE_W, TITLE_H)
   title:SetPoint("TOP", row, "TOP", 0, 0)
@@ -334,13 +299,16 @@ local function BuildTitle(row)
   edit:SetScript("OnEditFocusLost", function(self)
     if box:IsShown() then
       box:Hide()
-      CM.RadialRenameWheel(selected, self:GetText())
+      CM.RadialRenameWheel(CurrentWheel(), self:GetText())
       Resync()
     end
   end)
   title:SetScript("OnClick", function()
     local wheel = CurrentWheel()
-    edit:SetText(wheel and CM.RadialWheelName(wheel, selected) or "")
+    if not wheel then
+      return
+    end
+    edit:SetText(title.text:GetText())
     box:Show()
     edit:SetFocus()
     edit:HighlightText()
@@ -353,7 +321,77 @@ local function PlaceAt(frame, area, dx, dy, radius)
   frame:SetPoint("CENTER", area, "CENTER", dx * radius, dy * radius)
 end
 
-local function BuildWheelRow(ctx)
+local function BuildWheelRow(ctx, dedicated)
+  local selected = 1
+  local indices = {}
+  local function CurrentWheel()
+    if dedicated then
+      return CM.IsSeparatePingWheelEnabled() and CM.RadialGetDedicatedPingWheel() or nil
+    end
+    return CM.RadialGetWheels()[indices[selected]]
+  end
+
+  local function RefreshIndices()
+    local separate = CM.IsSeparatePingWheelEnabled()
+    indices = {}
+    for index, wheel in ipairs(CM.RadialGetWheels()) do
+      if not (separate and CM.RadialIsPingWheel(wheel)) then
+        indices[#indices + 1] = index
+      end
+    end
+  end
+
+  local sliceMenu
+  local menuSlot
+  -- The slice whose dropdown is open keeps its wedge lit; the wheel row registers how to repaint.
+  local pinnedSlot
+  local onPinChange
+
+  local function SetPinnedSlot(slot)
+    pinnedSlot = slot
+    if onPinChange then
+      onPinChange()
+    end
+  end
+
+  local function OpenSliceMenu(slot, anchor)
+    if not sliceMenu then
+      local host = CreateFrame("Frame", nil, UIParent)
+      host:Hide()
+      sliceMenu = UI.MakeDropdown(host, {
+        label = L["Slice"],
+        values = menuValues,
+        order = function()
+          local wheel = CurrentWheel()
+          return wheel and CM.RadialIsPingWheel(wheel) and pingMenuOrder or menuOrder
+        end,
+        headers = menuHeaders,
+        get = function()
+          local wheel = CurrentWheel()
+          local entry = wheel and wheel.slots and wheel.slots[menuSlot]
+          return entry and entry.kind == "action" and entry.id or nil
+        end,
+        set = function(id)
+          CM.RadialSetSlot(
+            CurrentWheel(),
+            menuSlot,
+            id ~= CLEAR_ID and { kind = "action", id = id } or nil
+          )
+          Resync()
+        end,
+      })
+      sliceMenu.onClosed = function()
+        SetPinnedSlot(nil)
+      end
+    end
+    menuSlot = slot
+    local wheel = CurrentWheel()
+    local entry = wheel and wheel.slots and wheel.slots[slot]
+    -- OpenAt closes a menu that is already open (firing onClosed), so pin after it.
+    sliceMenu.OpenAt(anchor, entry and (CM.RadialEntryInfo(entry)) or L["Choose an action"], 220)
+    SetPinnedSlot(slot)
+  end
+
   local row = CreateFrame("Frame", nil, ctx.content)
   -- The wheel art has empty margin around its ring, so the area may overlap the pip row a little.
   local wheelTop = TITLE_H + PIP_H - 6
@@ -362,7 +400,7 @@ local function BuildWheelRow(ctx)
   row:SetHeight(height)
 
   -- Title with the page arrows either side; clicking the title renames the wheel.
-  local title = BuildTitle(row)
+  local title = BuildTitle(row, CurrentWheel)
   local prev = MakeArrow(row, "left")
   prev:SetPoint("RIGHT", title, "LEFT", -8, 0)
   Tooltip(prev, L["Previous wheel"])
@@ -374,7 +412,7 @@ local function BuildWheelRow(ctx)
   nextButton:SetPoint("LEFT", title, "RIGHT", 8, 0)
   Tooltip(nextButton, L["Next wheel"])
   nextButton:SetScript("OnClick", function()
-    selected = math.min(#CM.RadialGetWheels(), selected + 1)
+    selected = math.min(#indices, selected + 1)
     Resync()
   end)
 
@@ -475,7 +513,7 @@ local function BuildWheelRow(ctx)
     pip:Hide()
     Tooltip(pip, function()
       return {
-        title = CM.RadialWheelName(CM.RadialGetWheels()[index], index),
+        title = CM.RadialWheelName(CM.RadialGetWheels()[indices[index]], index),
         text = L["Click to select this wheel, drag to reorder"],
       }
     end)
@@ -548,7 +586,7 @@ local function BuildWheelRow(ctx)
       pipHeld = nil
       lastPipDrag = _G.GetTime()
       if to then
-        CM.RadialMoveWheel(index, to)
+        CM.RadialMoveWheel(indices[index], indices[to])
         selected = to
       end
       Resync()
@@ -620,7 +658,7 @@ local function BuildWheelRow(ctx)
 
   local buttons = {}
   for slot = 1, LAYOUT.MAX_SLICES do
-    buttons[slot] = BuildSliceButton(area, slot)
+    buttons[slot] = BuildSliceButton(area, slot, CurrentWheel, OpenSliceMenu)
     -- The whole slice is the click target (see `hit` below), not just the icon.
     buttons[slot]:EnableMouse(false)
   end
@@ -798,7 +836,7 @@ local function BuildWheelRow(ctx)
     end
     local target = HoverTarget(hovered)
     if target and target ~= addSlice then
-      ApplyDrop(target.slot)
+      ApplyDrop(CurrentWheel(), target.slot)
     end
   end)
 
@@ -834,7 +872,7 @@ local function BuildWheelRow(ctx)
     pressed = nil
     EndDrag()
     if order then
-      CM.RadialReorderSlots(selected, order)
+      CM.RadialReorderSlots(CurrentWheel(), order)
     end
     Resync()
   end)
@@ -858,7 +896,7 @@ local function BuildWheelRow(ctx)
     wedge:SetAlpha(WEDGE_ALPHA)
   end)
   addSlice:SetScript("OnClick", function()
-    if not CM.RadialAddSlice(selected) then
+    if not CM.RadialAddSlice(CurrentWheel()) then
       Say(format(L["A wheel holds up to %d slices."], LAYOUT.MAX_SLICES))
     end
     Resync()
@@ -939,12 +977,12 @@ local function BuildWheelRow(ctx)
     { title = L["Remove Wheel"], text = L["Deletes this wheel and all of its slices."] }
   )
   removeWheel:SetScript("OnClick", function()
-    if #CM.RadialGetWheels() <= 1 then
+    if #indices <= 1 then
       Say(L["You need at least one wheel."])
       return
     end
     UI.Confirm(L["Remove this wheel and all of its slices?"], function()
-      CM.RadialDeleteWheel(selected)
+      CM.RadialDeleteWheel(indices[selected])
       Resync()
     end)
   end)
@@ -958,7 +996,15 @@ local function BuildWheelRow(ctx)
       Say(format(L["You can have up to %d wheels."], LAYOUT.MAX_WHEELS))
       return
     end
-    OpenWheelMenu(self)
+    OpenWheelMenu(self, function(index)
+      RefreshIndices()
+      for position, dbIndex in ipairs(indices) do
+        if dbIndex == index then
+          selected = position
+          break
+        end
+      end
+    end)
   end)
 
   local hint = UI.CreateFontString(row, "OVERLAY", UI.Fonts.desc, "GameFontHighlightSmall")
@@ -967,36 +1013,53 @@ local function BuildWheelRow(ctx)
   hint:SetJustifyH("CENTER")
   hint:SetWordWrap(true)
   hint:SetTextColor(C.textDim[1], C.textDim[2], C.textDim[3])
-  hint:SetText(
-    L["Click a slice to choose its action, or drop a spell, item, toy, mount or macro on it.\nDrag a slice to reorder it. Right-click a slice to remove it."]
-  )
 
   function Update()
-    local wheels = CM.RadialGetWheels()
-    local total = #wheels
+    if dedicated and not CM.IsSeparatePingWheelEnabled() then
+      return
+    end
+    if not dedicated then
+      RefreshIndices()
+    end
+    local total = #indices
     selected = math.max(1, math.min(selected, total))
-    local wheel = wheels[selected]
-    title.text:SetText(CM.RadialWheelName(wheel, selected))
-    pipTotal = total
-    PaintPips()
-    prev:SetAlpha(selected > 1 and 1 or 0.35)
-    nextButton:SetAlpha(selected < total and 1 or 0.35)
-    addWheel.dim = total >= LAYOUT.MAX_WHEELS
-    addWheel:SetAlpha(addWheel.dim and HUB_ALPHA_DIM or 1)
-    removeWheel.dim = total <= 1
-    removeWheel:SetAlpha(removeWheel.dim and HUB_ALPHA_DIM or 1)
+    local wheel = CurrentWheel()
+    hint:SetText(
+      wheel and CM.RadialIsPingWheel(wheel) and PING_SLICE_ACTIONS
+        or L["Click a slice to choose its action, or drop a spell, item, toy, mount or macro on it.\nDrag a slice to reorder it. Right-click a slice to remove it."]
+    )
+    title.text:SetText(wheel and CM.RadialWheelName(wheel, selected) or WHEELS_LABEL)
+    if dedicated then
+      pipRow:Hide()
+      prev:Hide()
+      nextButton:Hide()
+      hub:Hide()
+    else
+      pipTotal = total
+      PaintPips()
+      prev:SetAlpha(selected > 1 and 1 or 0.35)
+      nextButton:SetAlpha(selected < total and 1 or 0.35)
+      addWheel.dim = #CM.RadialGetWheels() >= LAYOUT.MAX_WHEELS
+      addWheel:SetAlpha(addWheel.dim and HUB_ALPHA_DIM or 1)
+      removeWheel.dim = total <= 1
+      removeWheel:SetAlpha(removeWheel.dim and HUB_ALPHA_DIM or 1)
+    end
 
     -- One extra position while there is room: the Add Slice slice.
     local n = CM.RadialSliceCount(wheel)
-    local canAdd = not wheel.locked and n < LAYOUT.MAX_SLICES
+    local canAdd = wheel and not wheel.locked and n < LAYOUT.MAX_SLICES
     local shown = canAdd and (n + 1) or n
     shownCount = shown
     liveCount = n
     addIndex = canAdd and (n + 1) or nil
     hovered = nil
+    area:SetShown(wheel ~= nil or not dedicated)
     PaintWedge()
     local style = CM.RadialStyle()
-    CM.RadialPaintBackground(bg, shown, EDITOR_SCALE)
+    bg:SetShown(shown > 0)
+    if shown > 0 then
+      CM.RadialPaintBackground(bg, shown, EDITOR_SCALE)
+    end
     -- Minimal's art is a big soft vignette that overhangs the wheel area and stretches the scrolled
     -- content; its fade is invisible past BG_KEEP art pixels, so draw only that part.
     local keep = math.min(style.bg, BG_KEEP)
@@ -1155,20 +1218,30 @@ UI.Options.AddTab({
     end
 
     ctx:Gap()
-    for index, command in ipairs(CM.PingMenuBindingCommands) do
-      ctx:Keybind({
-        label = index == 1 and L["Separate Ping Wheel"] or L["Separate Ping Wheel (Secondary)"],
-        allowPrimaryMouse = true,
-        desc = L["Tap to ping under the crosshair. Hold and release toward a slice to choose a ping."],
-        get = function()
-          return CM.GetSeparatePingBinding(command)
-        end,
-        set = function(binding)
-          CM.TryApplyBindingChange(L["Separate Ping Wheel"], function()
-            CM.SetSeparatePingBinding(command, binding)
-          end)
-        end,
-      })
-    end
+    ctx:Toggle({
+      label = L["Separate Ping Wheel"],
+      desc = L["While a separate key is bound, Ping is skipped by the shared Radial Menu key."],
+      charSpecific = true,
+      get = CM.IsSeparatePingWheelEnabled,
+      set = CM.SetSeparatePingWheelEnabled,
+    })
+    ctx:Keybind({
+      label = L["Separate Ping Wheel Keybind"],
+      allowPrimaryMouse = true,
+      desc = L["Tap to ping under the crosshair. Hold and release toward a slice to choose a ping."],
+      get = CM.GetSeparatePingBinding,
+      set = function(binding)
+        CM.TryApplyBindingChange(L["Separate Ping Wheel"], function()
+          CM.SetSeparatePingBinding(binding)
+        end)
+      end,
+      disabled = function()
+        return not CM.IsSeparatePingWheelEnabled()
+      end,
+    })
+    local pingEditor, pingEditorHeight = BuildWheelRow(ctx, true)
+    ctx:PlaceFrame(pingEditor, pingEditorHeight, function()
+      return not CM.IsSeparatePingWheelEnabled()
+    end)
   end,
 })

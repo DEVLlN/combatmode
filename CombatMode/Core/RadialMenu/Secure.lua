@@ -335,15 +335,19 @@ local function StoreImpl()
   end
   StoreDirections()
   wipe(lists)
+  local separatePing = CM.HasSeparatePingBinding()
   for dbIndex, wheel in ipairs(CM.RadialGetWheels()) do
-    local entries = {}
-    for _, entry in ipairs(CM.RadialCompact(wheel)) do
-      if CM.RadialEntrySecure(entry) then
-        entries[#entries + 1] = entry
+    local pingWheel = CM.RadialIsPingWheel(wheel)
+    if not (pingWheel and separatePing) then
+      local entries = {}
+      for _, entry in ipairs(CM.RadialCompact(wheel)) do
+        if CM.RadialEntrySecure(entry, pingWheel) then
+          entries[#entries + 1] = entry
+        end
       end
-    end
-    if #entries > 0 then
-      lists[#lists + 1] = { dbIndex = dbIndex, entries = entries }
+      if #entries > 0 then
+        lists[#lists + 1] = { dbIndex = dbIndex, entries = entries, pingWheel = pingWheel }
+      end
     end
   end
   for k = 1, LAYOUT.MAX_WHEELS do
@@ -351,15 +355,13 @@ local function StoreImpl()
     local n = list and #list.entries or 0
     Wheel:SetAttribute("rn" .. k, n)
     for i = 1, LAYOUT.MAX_SLICES do
-      local kind, value, isText
+      local kind, value, isText, reticleAim
       if i <= n then
-        kind, value, isText = CM.RadialEntrySecure(list.entries[i])
+        kind, value, isText, reticleAim = CM.RadialEntrySecure(list.entries[i], list.pingWheel)
       end
       Wheel:SetAttribute("rt" .. k .. "_" .. i, kind and (isText and "macrotext" or kind) or nil)
       Wheel:SetAttribute("rv" .. k .. "_" .. i, kind and value or nil)
-      local entry = list and list.entries[i]
-      local action = entry and entry.kind == "action" and CM.RadialActions.byId[entry.id]
-      Wheel:SetAttribute("rp" .. k .. "_" .. i, action and action.locationPing or nil)
+      Wheel:SetAttribute("rp" .. k .. "_" .. i, reticleAim)
     end
   end
   Wheel:SetAttribute("rtotal", #lists)

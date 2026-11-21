@@ -159,8 +159,13 @@ end
 
 function CM.RadialBuildPingWheel()
   local wheel = PresetWheel(L["Ping"], { "pingattack", "pingwarning", "pingonmyway", "pingassist" })
-  wheel.locked = true
+  wheel.preset = "ping"
   return wheel
+end
+
+function CM.RadialIsPingWheel(wheel)
+  return wheel.preset == "ping"
+    or (wheel.locked and wheel.slots and wheel.slots[1] and wheel.slots[1].id == "pingattack")
 end
 
 local PRESETS = {
@@ -280,12 +285,61 @@ local function RadialDb()
       char.radialMenu.wheels = PresetWheels()
     end
   end
-  return char.radialMenu
+  local radial = char.radialMenu
+  local pingIndex
+  for index, wheel in ipairs(radial.wheels) do
+    if CM.RadialIsPingWheel(wheel) then
+      -- Earlier builds could add multiple locked copies. Keep their slices and
+      -- treat later copies as ordinary wheels.
+      wheel.locked = nil
+      wheel.preset = not pingIndex and "ping" or nil
+      pingIndex = pingIndex or index
+    end
+  end
+  if pingIndex then
+    radial.pingPresetSeeded = true
+  elseif
+    #radial.wheels < LAYOUT.MAX_WHEELS
+    and (radial.dedicatedPingWheel or not radial.pingPresetSeeded)
+  then
+    radial.wheels[#radial.wheels + 1] = radial.dedicatedPingWheel or CM.RadialBuildPingWheel()
+    radial.dedicatedPingWheel = nil
+    radial.pingPresetSeeded = true
+    pingIndex = #radial.wheels
+  end
+  return radial, pingIndex
 end
 
 function CM.RadialGetWheels()
   local db = RadialDb()
   return db and db.wheels or {}
+end
+
+-- Use the same saved wheel in both modes. If the shared list is full, a
+-- dedicated wheel can still be edited without replacing any existing wheel.
+function CM.RadialGetDedicatedPingWheel()
+  local db, index = RadialDb()
+  if index then
+    return db.wheels[index]
+  end
+  if not db then
+    return nil
+  end
+  local wheel = db.dedicatedPingWheel or CM.RadialBuildPingWheel()
+  if #db.wheels < LAYOUT.MAX_WHEELS then
+    db.wheels[#db.wheels + 1] = wheel
+    db.pingPresetSeeded = true
+  else
+    db.dedicatedPingWheel = wheel
+  end
+  return wheel
+end
+
+local function WheelAt(index)
+  if type(index) == "table" then
+    return index
+  end
+  return CM.RadialGetWheels()[index]
 end
 
 local function Changed()
@@ -297,7 +351,10 @@ end
 --- New wheel appended, or inserted before `atIndex`; returns its index. `presetKey` (see
 --- CM.RadialPresetList) fills it from a preset, otherwise it is an empty 4-slice wheel.
 function CM.RadialCreateWheel(atIndex, presetKey)
-  local db = RadialDb()
+  local db, pingIndex = RadialDb()
+  if presetKey == "ping" and pingIndex then
+    return pingIndex
+  end
   if not db or #db.wheels >= LAYOUT.MAX_WHEELS then
     return nil
   end
@@ -349,7 +406,7 @@ end
 
 --- Blank names fall back to "Wheel <index>".
 function CM.RadialRenameWheel(index, name)
-  local wheel = CM.RadialGetWheels()[index]
+  local wheel = WheelAt(index)
   if not wheel then
     return
   end
@@ -376,7 +433,7 @@ function CM.RadialSliceCount(wheel)
 end
 
 function CM.RadialAddSlice(index)
-  local wheel = CM.RadialGetWheels()[index]
+  local wheel = WheelAt(index)
   local count = CM.RadialSliceCount(wheel)
   if not wheel or wheel.locked or count >= LAYOUT.MAX_SLICES then
     return false
@@ -388,7 +445,7 @@ end
 
 --- Removes slice `slot` and shifts the later ones down. A wheel always keeps at least one slice.
 function CM.RadialRemoveSlice(index, slot)
-  local wheel = CM.RadialGetWheels()[index]
+  local wheel = WheelAt(index)
   local count = CM.RadialSliceCount(wheel)
   if not wheel or wheel.locked or count <= 1 or slot < 1 or slot > count then
     return false
@@ -477,9 +534,20 @@ local function ValidEntry(entry)
   return false
 end
 
+function CM.RadialCanSetSlotEntry(wheel, entry)
+  if not ValidEntry(entry) then
+    return false
+  end
+  if not CM.RadialIsPingWheel(wheel) then
+    return true
+  end
+  local action = entry.kind == "action" and CM.RadialActions.byId[entry.id]
+  return CM.RadialActions.IsPingWheelAction(action)
+end
+
 --- entry = nil empties the slot.
 function CM.RadialSetSlot(index, slot, entry)
-  local wheel = CM.RadialGetWheels()[index]
+  local wheel = WheelAt(index)
   if
     not wheel
     or wheel.locked
@@ -489,7 +557,7 @@ function CM.RadialSetSlot(index, slot, entry)
   then
     return
   end
-  if entry ~= nil and not ValidEntry(entry) then
+  if entry ~= nil and not CM.RadialCanSetSlotEntry(wheel, entry) then
     return
   end
   wheel.slots = wheel.slots or {}
@@ -500,7 +568,7 @@ end
 --- Rearranges the slices: new position `p` takes the entry that was in slot `order[p]` (a
 --- permutation of 1..count; slots may have holes).
 function CM.RadialReorderSlots(index, order)
-  local wheel = CM.RadialGetWheels()[index]
+  local wheel = WheelAt(index)
   if not wheel or wheel.locked or not wheel.slots then
     return
   end
@@ -733,6 +801,8 @@ function CM.RadialSetIcon(texture, icon, label, text)
   if icon == "text" then
     -- Transparent: the slot's disc art is the background behind the text.
     texture:SetColorTexture(0, 0, 0, 0)
+  elseif type(icon) == "string" and icon:sub(1, 6) == "atlas:" then
+    CM.SetAtlas(texture, icon:sub(7), false)
   elseif icon == "portrait" then
     if _G.SetPortraitTexture then
       _G.SetPortraitTexture(texture, "player")
@@ -745,9 +815,9 @@ function CM.RadialSetIcon(texture, icon, label, text)
   end
 end
 
---- type, value, isMacroText for the slice's SecureActionButton (nil when it can't be built).
-function CM.RadialEntrySecure(entry)
-  if not entry then
+--- Secure action type, value, macro-text flag and reticle-aim flag for a slice.
+function CM.RadialEntrySecure(entry, pingWheel)
+  if not entry or (pingWheel and entry.kind ~= "action") then
     return nil
   end
   if entry.kind == "spell" then
@@ -758,14 +828,28 @@ function CM.RadialEntrySecure(entry)
     return "macro", entry.id, false
   elseif entry.kind == "action" then
     local action = CM.RadialActions and CM.RadialActions.byId[entry.id]
-    if not action then
+    if not action or (pingWheel and not CM.RadialActions.IsPingWheelAction(action)) then
       return nil
+    end
+    local marker = pingWheel and action.group == "marker" and action.id:match("^tm([0-8])$")
+    if marker then
+      local aimedOrSelected = "[@mouseover,exists][@target,exists]"
+      local text = "/tm "
+        .. aimedOrSelected
+        .. " "
+        .. marker
+        .. "\n/stopmacro "
+        .. aimedOrSelected
+        .. "[@focus,exists]"
+        .. "\n/tm [@softenemy,exists][@softfriend,exists] "
+        .. marker
+      return "macro", text, true, true
     end
     local text = CM.RadialActions.MacroText(action)
     if not text then
       return nil
     end
-    return "macro", text, true
+    return "macro", text, true, action.locationPing
   end
   return nil
 end

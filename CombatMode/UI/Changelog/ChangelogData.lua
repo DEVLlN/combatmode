@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add the locked **Ping** preset to the **Radial Menu**, or bind **Separate Ping Wheel** to tap for a quick ping or hold and release toward Attack, Warning, On My Way or Assist. Quick pings use the existing **Click Casting** actions, which aim under the reticle even while Target Lock is active.
+- The **Radial Menu** includes a customizable **Ping** wheel for pings, markers, and group checks. Enable **Separate Ping Wheel** to edit it at the bottom of the tab and assign a dedicated key. Ping leaves the shared rotation while that key is active. Target markers on the Ping wheel can mark an aimed-at unit without selecting it first.
 
 - **Support Mode** has a new **Self-Cast Keybind**. Hold it and the helpful spells on your click-cast buttons land on you, without changing your target or **Target Lock**.
 - **Support Mode** has a new **Cycle in Group Order** option. Turn it on and the **Cycle Lock** keys move through your party or raid in group order, instead of jumping to the nearest player. With nobody locked, **Next** locks the first member of your group and **Previous** the last.

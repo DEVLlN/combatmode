@@ -854,3 +854,6 @@ L["Tap to ping under the crosshair. Hold and release toward a slice to choose a 
 L["Unlock Cursor for Ping"] = "Cursor für Ping freigeben"
 L["Hold a Blizzard Ping binding to aim with the cursor. Release it to resume Mouse Look. Off by default."] =
   "Halte eine Blizzard-Ping-Taste gedrückt, um mit dem Cursor zu zielen. Loslassen setzt die Maussteuerung fort. Standardmäßig aus."
+L["Callouts"] = "Ansagen"
+L["Choose a ping, marker, or group coordination command."] =
+  "Wähle einen Ping, eine Markierung oder einen Befehl zur Gruppenkoordination."

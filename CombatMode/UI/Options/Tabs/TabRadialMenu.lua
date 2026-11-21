@@ -86,7 +86,7 @@ end
 -- Slice action menu (the options dropdown, opened beside a slice)
 ---------------------------------------------------------------------------------------
 local CLEAR_ID = "__clear"
-local menuValues, menuOrder = { [CLEAR_ID] = L["Clear Slice"] }, {}
+local menuValues, menuOrder, calloutOrder = { [CLEAR_ID] = L["Clear Slice"] }, {}, {}
 local menuHeaders = {
   __ui = L["UI Actions"],
   __emote = L["Emotes"],
@@ -103,20 +103,28 @@ for _, section in ipairs({
   { "__command", "command" },
   { "__marker", "marker" },
 }) do
+  local calloutSection = section[2] == "command" or section[2] == "marker"
   menuOrder[#menuOrder + 1] = section[1]
+  if calloutSection then
+    calloutOrder[#calloutOrder + 1] = section[1]
+  end
   for _, action in ipairs(CM.RadialActions.list) do
-    if
-      not action.locationPing
-      and action.group == section[2]
-      and CM.RadialActions.IsAvailable(action)
-    then
+    if action.group == section[2] and CM.RadialActions.IsAvailable(action) then
       menuValues[action.id] = action.label
-      menuOrder[#menuOrder + 1] = action.id
+      if not action.locationPing then
+        menuOrder[#menuOrder + 1] = action.id
+      end
+      if calloutSection and CM.RadialActions.IsCalloutAction(action) then
+        calloutOrder[#calloutOrder + 1] = action.id
+      end
     end
   end
 end
 menuOrder[#menuOrder + 1] = "__slice"
 menuOrder[#menuOrder + 1] = CLEAR_ID
+calloutOrder[#calloutOrder + 1] = "__slice"
+calloutOrder[#calloutOrder + 1] = CLEAR_ID
+local CALLOUT_HINT = L["Choose a ping, marker, or group coordination command."]
 
 local sliceMenu
 local menuSlot
@@ -138,7 +146,9 @@ local function OpenSliceMenu(slot, anchor)
     sliceMenu = UI.MakeDropdown(host, {
       label = L["Slice"],
       values = menuValues,
-      order = menuOrder,
+      order = function()
+        return CM.RadialIsCalloutWheel(CurrentWheel()) and calloutOrder or menuOrder
+      end,
       headers = menuHeaders,
       get = function()
         local wheel = CurrentWheel()
@@ -207,6 +217,10 @@ local function ApplyDrop(slot)
   if not GetCursorInfo() then
     return false
   end
+  if CM.RadialIsCalloutWheel(CurrentWheel()) then
+    Say(CALLOUT_HINT)
+    return true
+  end
   local entry = CM.RadialEntryFromCursor()
   if not entry then
     Say(L["That can't go on a wheel. Use a spell, item, toy, mount or macro."])
@@ -242,17 +256,20 @@ local function BuildSliceButton(area, slot)
   button.slot = slot
   button:SetScript("OnEnter", function(self)
     local wheel = CurrentWheel()
+    local callouts = CM.RadialIsCalloutWheel(wheel)
     local entry = wheel and wheel.slots and wheel.slots[self.slot]
     if entry then
       UI.ShowTooltip(self, {
         title = (CM.RadialEntryInfo(entry)),
-        text = L["Drag a spell, item, toy, mount or macro here, or click to change the action."],
+        text = callouts and CALLOUT_HINT
+          or L["Drag a spell, item, toy, mount or macro here, or click to change the action."],
         warning = "Right-click to remove this slice.",
       }, "ANCHOR_RIGHT")
     else
       UI.ShowTooltip(self, {
         title = L["Empty Slice"],
-        text = L["Drag a spell, item, toy, mount or macro here, or click to set an action. Empty slices are left out of the wheel."],
+        text = callouts and CALLOUT_HINT
+          or L["Drag a spell, item, toy, mount or macro here, or click to set an action. Empty slices are left out of the wheel."],
         warning = "Right-click to remove this slice.",
       }, "ANCHOR_RIGHT")
     end
@@ -967,15 +984,16 @@ local function BuildWheelRow(ctx)
   hint:SetJustifyH("CENTER")
   hint:SetWordWrap(true)
   hint:SetTextColor(C.textDim[1], C.textDim[2], C.textDim[3])
-  hint:SetText(
-    L["Click a slice to choose its action, or drop a spell, item, toy, mount or macro on it.\nDrag a slice to reorder it. Right-click a slice to remove it."]
-  )
 
   function Update()
     local wheels = CM.RadialGetWheels()
     local total = #wheels
     selected = math.max(1, math.min(selected, total))
     local wheel = wheels[selected]
+    hint:SetText(
+      CM.RadialIsCalloutWheel(wheel) and CALLOUT_HINT
+        or L["Click a slice to choose its action, or drop a spell, item, toy, mount or macro on it.\nDrag a slice to reorder it. Right-click a slice to remove it."]
+    )
     title.text:SetText(CM.RadialWheelName(wheel, selected))
     pipTotal = total
     PaintPips()

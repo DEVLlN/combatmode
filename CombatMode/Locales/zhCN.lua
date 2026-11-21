@@ -834,3 +834,6 @@ L["Tap to ping under the crosshair. Hold and release toward a slice to choose a 
 L["Unlock Cursor for Ping"] = "发送信号时解锁光标"
 L["Hold a Blizzard Ping binding to aim with the cursor. Release it to resume Mouse Look. Off by default."] =
   "按住暴雪的信号快捷键用光标瞄准。松开后恢复鼠标视角控制。默认关闭。"
+L["Callouts"] = "战术信号"
+L["Choose a ping, marker, or group coordination command."] =
+  "选择信号、标记或团队协调指令。"

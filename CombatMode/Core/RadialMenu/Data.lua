@@ -163,6 +163,18 @@ function CM.RadialBuildPingWheel()
   return wheel
 end
 
+local function BuildCalloutWheel()
+  local wheel = CM.RadialBuildPingWheel()
+  wheel.name = L["Callouts"]
+  wheel.locked = nil
+  wheel.preset = "callouts"
+  return wheel
+end
+
+function CM.RadialIsCalloutWheel(wheel)
+  return wheel ~= nil and wheel.preset == "callouts"
+end
+
 local PRESETS = {
   {
     key = "interface",
@@ -243,6 +255,12 @@ local PRESETS = {
     key = "ping",
     label = L["Ping"],
     build = CM.RadialBuildPingWheel,
+    optIn = true,
+  },
+  {
+    key = "callouts",
+    label = L["Callouts"],
+    build = BuildCalloutWheel,
     optIn = true,
   },
 }
@@ -489,8 +507,16 @@ function CM.RadialSetSlot(index, slot, entry)
   then
     return
   end
-  if entry ~= nil and not ValidEntry(entry) then
-    return
+  if entry ~= nil then
+    if not ValidEntry(entry) then
+      return
+    end
+    if CM.RadialIsCalloutWheel(wheel) then
+      local action = entry.kind == "action" and CM.RadialActions.byId[entry.id]
+      if not CM.RadialActions.IsCalloutAction(action) then
+        return
+      end
+    end
   end
   wheel.slots = wheel.slots or {}
   wheel.slots[slot] = entry and { kind = entry.kind, id = entry.id } or nil
@@ -745,9 +771,9 @@ function CM.RadialSetIcon(texture, icon, label, text)
   end
 end
 
---- type, value, isMacroText for the slice's SecureActionButton (nil when it can't be built).
-function CM.RadialEntrySecure(entry)
-  if not entry then
+--- Secure action type, value, macro-text flag and reticle-aim flag for a slice.
+function CM.RadialEntrySecure(entry, calloutWheel)
+  if not entry or (calloutWheel and entry.kind ~= "action") then
     return nil
   end
   if entry.kind == "spell" then
@@ -758,14 +784,28 @@ function CM.RadialEntrySecure(entry)
     return "macro", entry.id, false
   elseif entry.kind == "action" then
     local action = CM.RadialActions and CM.RadialActions.byId[entry.id]
-    if not action then
+    if not action or (calloutWheel and not CM.RadialActions.IsCalloutAction(action)) then
       return nil
+    end
+    local marker = calloutWheel and action.group == "marker" and action.id:match("^tm([0-8])$")
+    if marker then
+      local aimedOrSelected = "[@mouseover,exists][@target,exists]"
+      local text = "/tm "
+        .. aimedOrSelected
+        .. " "
+        .. marker
+        .. "\n/stopmacro "
+        .. aimedOrSelected
+        .. "[@focus,exists]"
+        .. "\n/tm [@softenemy,exists][@softfriend,exists] "
+        .. marker
+      return "macro", text, true, true
     end
     local text = CM.RadialActions.MacroText(action)
     if not text then
       return nil
     end
-    return "macro", text, true
+    return "macro", text, true, action.locationPing
   end
   return nil
 end

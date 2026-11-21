@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add an optional **Callouts** wheel preset with editable pings, markers, and group coordination commands. Target markers on Callouts can mark the unit under the reticle without selecting it first.
+
 - Add the locked **Ping** preset to the **Radial Menu**, or bind **Separate Ping Wheel** to tap for a quick ping or hold and release toward Attack, Warning, On My Way or Assist. Quick pings use the existing **Click Casting** actions, which aim under the reticle even while Target Lock is active.
 
 - **Support Mode** has a new **Self-Cast Keybind**. Hold it and the helpful spells on your click-cast buttons land on you, without changing your target or **Target Lock**.

@@ -15,6 +15,7 @@ local SPECS = {
   "spec_db",
   "spec_ping",
   "spec_ping_cursor",
+  "spec_callouts",
 }
 local CLIENTS = {
   { name = "retail", pattern = "## Interface:%s*(%d+)" },

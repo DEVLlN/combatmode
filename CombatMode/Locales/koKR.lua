@@ -857,3 +857,6 @@ L["Tap to ping under the crosshair. Hold and release toward a slice to choose a 
 L["Unlock Cursor for Ping"] = "핑 사용 시 커서 잠금 해제"
 L["Hold a Blizzard Ping binding to aim with the cursor. Release it to resume Mouse Look. Off by default."] =
   "블리자드 핑 키를 누르고 있으면 커서로 조준합니다. 놓으면 마우스 시점 제어로 돌아갑니다. 기본값은 꺼짐입니다."
+L["Callouts"] = "전술 신호"
+L["Choose a ping, marker, or group coordination command."] =
+  "핑, 징표 또는 파티 조율 명령을 선택하세요."

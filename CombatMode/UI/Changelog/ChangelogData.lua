@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - **Unlock Cursor for Ping** in **Auto Unlock**, off by default. Hold a Blizzard **Ping** binding to aim with a free cursor and release to resume Mouse Look and its usual cursor centering. Existing reticle ping behavior is unchanged when the option is off.
+- **Hide Focus Frame** in the **Target Lock** section, off by default and saved per character. Hides Blizzard's focus frame while keeping your focus and Target Lock intact. Turning it off restores the frame; changes during combat apply after combat ends.
 
 ### Fixed
 

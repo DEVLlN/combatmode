@@ -842,3 +842,8 @@ L["Click to print URL to chat"] = "Clicca per stampare l'URL in chat"
 L["Unlock Cursor for Ping"] = "Libera il cursore per i ping"
 L["Hold a Blizzard Ping binding to aim with the cursor. Release it to resume Mouse Look. Off by default."] =
   "Tieni premuto un tasto Ping di Blizzard per mirare con il cursore. Rilascialo per riprendere la visuale con il mouse. Disattivato per impostazione predefinita."
+
+-- Target Lock: optional Blizzard focus frame hiding.
+L["Hide Focus Frame"] = "Nascondi riquadro del focus"
+L["Hide Blizzard's focus frame without clearing your focus or Target Lock. Changes made in combat apply after combat ends."] =
+  "Nasconde il riquadro Blizzard e mantiene il focus e il blocco del bersaglio. Le modifiche si applicano a fine combattimento."

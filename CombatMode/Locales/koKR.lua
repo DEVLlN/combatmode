@@ -846,3 +846,8 @@ L["Click to print URL to chat"] = "클릭하여 URL을 대화창에 출력"
 L["Unlock Cursor for Ping"] = "핑 사용 시 커서 잠금 해제"
 L["Hold a Blizzard Ping binding to aim with the cursor. Release it to resume Mouse Look. Off by default."] =
   "블리자드 핑 키를 누르고 있으면 커서로 조준합니다. 놓으면 마우스 시점 제어로 돌아갑니다. 기본값은 꺼짐입니다."
+
+-- Target Lock: optional Blizzard focus frame hiding.
+L["Hide Focus Frame"] = "주시 대상 창 숨기기"
+L["Hide Blizzard's focus frame without clearing your focus or Target Lock. Changes made in combat apply after combat ends."] =
+  "주시 대상과 대상 고정을 유지하면서 블리자드의 주시 대상 창을 숨깁니다. 변경 사항은 전투가 끝난 후 적용됩니다."

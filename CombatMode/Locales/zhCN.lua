@@ -823,3 +823,8 @@ L["Click to print URL to chat"] = "点击将 URL 输出到聊天"
 L["Unlock Cursor for Ping"] = "发送信号时解锁光标"
 L["Hold a Blizzard Ping binding to aim with the cursor. Release it to resume Mouse Look. Off by default."] =
   "按住暴雪的信号快捷键用光标瞄准。松开后恢复鼠标视角控制。默认关闭。"
+
+-- Target Lock: optional Blizzard focus frame hiding.
+L["Hide Focus Frame"] = "隐藏焦点框体"
+L["Hide Blizzard's focus frame without clearing your focus or Target Lock. Changes made in combat apply after combat ends."] =
+  "隐藏暴雪焦点框体，同时保留焦点和目标锁定。更改在战斗结束后生效。"

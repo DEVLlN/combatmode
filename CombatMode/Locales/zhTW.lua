@@ -819,6 +819,11 @@ L["Macro “%s” no longer fits with the current preline; edit it from Reticle 
   "巨集「%s」與目前前置行合併後已超出長度限制；請在準星瞄準巨集中編輯。"
 L["Click to print URL to chat"] = "點擊將 URL 輸出到聊天"
 
+-- Auto Unlock: optional cursor aiming for native Ping.
+L["Unlock Cursor for Ping"] = "發送信號時解鎖游標"
+L["Hold a Blizzard Ping binding to aim with the cursor. Release it to resume Mouse Look. Off by default."] =
+  "按住暴雪的信號快捷鍵以游標瞄準。放開後恢復滑鼠視角控制。預設關閉。"
+
 -- Target Lock: optional Blizzard focus frame hiding.
 L["Hide Focus Frame"] = "隱藏專注目標框架"
 L["Hide Blizzard's focus frame without clearing your focus or Target Lock. Changes made in combat apply after combat ends."] =

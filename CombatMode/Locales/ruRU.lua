@@ -884,6 +884,11 @@ L["Macro “%s” no longer fits with the current preline; edit it from Reticle 
   "Макрос «%s» больше не помещается с текущей предстрокой; измените его в разделе макросов наведения по прицелу."
 L["Click to print URL to chat"] = "Нажмите, чтобы вывести ссылку в чат"
 
+-- Auto Unlock: optional cursor aiming for native Ping.
+L["Unlock Cursor for Ping"] = "Освобождать курсор для сигналов"
+L["Hold a Blizzard Ping binding to aim with the cursor. Release it to resume Mouse Look. Off by default."] =
+  "Удерживайте клавишу сигнала Blizzard для прицеливания курсором. Отпустите её для возврата к управлению камерой мышью. По умолчанию выключено."
+
 -- Target Lock: optional Blizzard focus frame hiding.
 L["Hide Focus Frame"] = "Скрыть рамку фокуса"
 L["Hide Blizzard's focus frame without clearing your focus or Target Lock. Changes made in combat apply after combat ends."] =
